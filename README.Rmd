@@ -30,8 +30,7 @@ Puedes instalar la versión de desarrollo de `geoperu` de la siguiente manera:
 pak::pak("PaulESantos/geoperu")
 ```
 
-Este acceder a la informacion espacial de los distritos de cualquier provincia del
-Peru puedes usar la funcion `get_prov_sf()`
+Para acceder a la información espacial de los distritos de cualquier provincia del Perú, puedes utilizar la función `get_prov_sf()`.
 
 ```{r example}
 library(geoperu)
@@ -42,3 +41,16 @@ prov_sf <- geoperu::get_prov_sf(c("ANTA", "Urubamba", "calca"))
 prov_sf
 ```
 
+Para visualizar la información geoespacial recuperada con la función get_prov_sf() del paquete geoperu, puedes utilizar diversas herramientas en R. Una opción común es utilizar la librería ggplot2 junto con la funcionalidad de visualización de objetos sf.
+
+Aquí tienes un ejemplo básico de cómo visualizar los datos:
+
+```{r}
+library(ggplot2)
+prov_sf |> 
+  ggplot() +
+  geom_sf() +
+  theme_bw()
+
+```
+Puedes personalizar el gráfico agregando capas adicionales, ajustando los estilos y agregando etiquetas según tus necesidades específicas.
