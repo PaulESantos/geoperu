@@ -1,12 +1,12 @@
 Package: geoperu
-Title: Download Official Spatial Data Sets of Peru
-Version: 0.0.0.1
+Title: Descarga de Conjuntos de Datos Espaciales Oficiales de Perú
+Version: 1.0.0
 Authors@R: 
-    person("Paul E.", "Santos Andrade", ,
+    person("Paul E.", "Santos Andrade", 
     email = "paulefrens@gmail.com",
     role = c("aut", "cre"),
     comment = c(ORCID = "0000-0002-6635-0375"))
-Description: Convenient access to spatial datasets of Peru as 'sf' objects in R. This package encompasses a diverse array of geospatial data available, featuring harmonized attributes, projection, and consistent topology.
+Description: Proporciona acceso conveniente a los conjuntos de datos espaciales oficiales de Perú como objetos 'sf' en R. Este paquete incluye una amplia gama de datos geoespaciales que cubren varios aspectos de la geografía peruana, como divisiones administrativas, cobertura terrestre, elevación, hidrografía y más. Todos los conjuntos de datos están armonizados en términos de atributos, proyección y topología, asegurando consistencia y facilidad de uso para el análisis y visualización espacial.
 License: MIT + file LICENSE
 Suggests: 
     testthat (>= 3.0.0)
@@ -16,7 +16,10 @@ Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.1
 BugReports: https://github.com/PaulESantos/geoperu/issues
 Depends: 
-    R (>= 2.10)
+    R (>= 3.6.0)
 LazyDataCompression: xz
 LazyData: true
 URL: https://github.com/PaulESantos/geoperu
+Imports: 
+    dplyr,
+    sf
