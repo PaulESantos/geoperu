@@ -5,4 +5,4 @@
 #' @source \url{https://ide.inei.gob.pe/}
 #' @format A \code{SpatialPolygonsDataFrame}
 #' @keywords dataset
-"distritos_tbl"
+"distritos_peru"
