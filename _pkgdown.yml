@@ -1,4 +1,6 @@
 url: https://paulesantos.github.io/geoperu/
 template:
   bootstrap: 5
+  bootswatch: cerulean
+  lang: es
 
