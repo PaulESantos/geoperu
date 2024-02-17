@@ -19,7 +19,7 @@ Depends:
     R (>= 3.6.0)
 LazyDataCompression: xz
 LazyData: true
-URL: https://github.com/PaulESantos/geoperu
+URL: https://github.com/PaulESantos/geoperu, https://paulesantos.github.io/geoperu/
 Imports: 
     dplyr,
     sf
