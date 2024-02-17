@@ -20,22 +20,25 @@ knitr::opts_chunk$set(
 [![CRAN status](https://www.r-pkg.org/badges/version/geoperu)](https://CRAN.R-project.org/package=geoperu)
 <!-- badges: end -->
 
-The goal of geoperu is to ...
+El paquete geoperu proporciona una interfaz conveniente para acceder a conjuntos de datos espaciales oficiales de Perú directamente desde R. Estos datos son recopilados del Instituto Nacional de Estadística e Informática (INEI) de Perú.
 
-## Installation
+## Instalación
 
-You can install the development version of geoperu like so:
+Puedes instalar la versión de desarrollo de `geoperu` de la siguiente manera:
 
 ``` r
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+pak::pak("PaulESantos/geoperu")
 ```
 
-## Example
-
-This is a basic example which shows you how to solve a common problem:
+Este acceder a la informacion espacial de los distritos de cualquier provincia del
+Peru puedes usar la funcion `get_prov_sf()`
 
 ```{r example}
-#library(geoperu)
-## basic example code
+library(geoperu)
+cusco_sf <- geoperu::get_prov_sf("CUSCO")
+cusco_sf
+
+prov_sf <- geoperu::get_prov_sf(c("ANTA", "Urubamba", "calca"))
+prov_sf
 ```
 

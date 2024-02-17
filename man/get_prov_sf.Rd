@@ -2,27 +2,28 @@
 % Please edit documentation in R/get_prov.R
 \name{get_prov_sf}
 \alias{get_prov_sf}
-\title{Obtener datos espaciales de distritos por provincia en Peru}
+\title{Obtener datos espaciales de distritos por provincia en Perú}
 \usage{
 get_prov_sf(prov_name = NULL)
 }
 \arguments{
-\item{prov_name}{El nombre de la provincia a la que se desean filtrar los datos.
-Debe ser una cadena de caracteres. Si se omite o es NULL, la función devolvera
-todos los distritos.}
+\item{prov_name}{El nombre o nombres de las provincias a las que se desean filtrar los datos.
+Puede ser un vector de cadenas de caracteres. Si se omite o es NULL, la función devolverá todos los distritos.}
 }
 \value{
-Un objeto espacial (SpatialDataFrame) que contiene los datos de los
-distritos de la provincia especificada. Si no se encuentra ninguna coincidencia
-devuelve NULL.
+Un objeto espacial (SpatialDataFrame) que contiene los datos de los distritos
+de las provincias especificadas. Si no se encuentra ninguna coincidencia o los datos de Perú
+no están disponibles, devuelve NULL.
 }
 \description{
-Esta funcion permite filtrar los datos espaciales de los distritos de Peru
-según el nombre de la provincia especificada.
+Esta función permite filtrar los datos espaciales de los distritos de Perú
+según el nombre o nombres de provincia especificados.
 }
 \examples{
 # Obtener datos de la provincia de Lima
-lima_data <- get_prov_sf("Lima")
+lima_data <- get_prov_sf(c("Lima"))
+# Obtener datos de varias provincias
+varios_data <- get_prov_sf(c("Lima", "Arequipa", "Cusco"))
 # Obtener todos los datos de distritos sin filtrar por provincia
 all_data <- get_prov_sf()
 }
