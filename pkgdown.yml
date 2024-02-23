@@ -2,7 +2,7 @@ pandoc: 2.19.2
 pkgdown: 2.0.7
 pkgdown_sha: ~
 articles: {}
-last_built: 2024-02-17T21:31Z
+last_built: 2024-02-23T04:59Z
 urls:
   reference: https://paulesantos.github.io/geoperu/reference
   article: https://paulesantos.github.io/geoperu/articles
