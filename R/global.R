@@ -1,4 +1,4 @@
-utils::globalVariables(c( ".data", "provincia"
+utils::globalVariables(c( ".data", "provincia", "departamento"
 ))
 
 
