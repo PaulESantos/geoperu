@@ -19,11 +19,11 @@
 get_prov_sf <- function(prov_name = NULL){
   if(is.null(prov_name) || length(prov_name) == 0) {
     warning("No se proporcionaron nombres de provincias. Devolviendo todos los distritos.")
-    return(geoperu::distritos_peru |>
+    return(geoperu::peru |>
              sf::st_as_sf())
   }
 
-  df <- geoperu::distritos_peru |>
+  df <- geoperu::peru |>
     sf::st_as_sf()
 
   prov_name <- toupper(prov_name)

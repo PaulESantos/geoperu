@@ -21,11 +21,11 @@ get_dep_sf <- function(dep_name = NULL){
   if(is.null(dep_name) || length(dep_name) == 0) {
     warning("No se proporcionaron nombres de departamentos.
             Devolviendo todos los departamentos.")
-    return(geoperu::distritos_peru |>
+    return(geoperu::peru |>
              sf::st_as_sf())
   }
 
-  df <- geoperu::distritos_peru |>
+  df <- geoperu::peru |>
     sf::st_as_sf()
 
   dep_name <- toupper(dep_name)

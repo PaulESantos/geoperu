@@ -22,4 +22,5 @@ LazyData: true
 URL: https://github.com/PaulESantos/geoperu, https://paulesantos.github.io/geoperu/
 Imports: 
     dplyr,
+    httr,
     sf
