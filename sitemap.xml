@@ -16,7 +16,7 @@
     <loc>https://paulesantos.github.io/geoperu/index.html</loc>
   </url>
   <url>
-    <loc>https://paulesantos.github.io/geoperu/reference/distritos_peru.html</loc>
+    <loc>https://paulesantos.github.io/geoperu/reference/download_metadata.html</loc>
   </url>
   <url>
     <loc>https://paulesantos.github.io/geoperu/reference/get_dep_sf.html</loc>
@@ -26,5 +26,11 @@
   </url>
   <url>
     <loc>https://paulesantos.github.io/geoperu/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://paulesantos.github.io/geoperu/reference/peru.html</loc>
+  </url>
+  <url>
+    <loc>https://paulesantos.github.io/geoperu/reference/select_data_level.html</loc>
   </url>
 </urlset>
