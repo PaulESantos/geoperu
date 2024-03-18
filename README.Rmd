@@ -37,10 +37,16 @@ To access spatial information of districts from any province in Peru, you can us
 
 library(geoperu)
 
-cusco_sf <- geoperu::get_geo_peru("CUSCO", level = "dep", simplified = FALSE)
-cusco_sf
+cusco <- geoperu::get_geo_peru(geography = "CUSCO", 
+                                  level = "dep",
+                                  simplified = FALSE)
+cusco
+cusco_simplified <- geoperu::get_geo_peru(geography = "CUSCO", 
+                                  level = "dep",
+                                  simplified = TRUE)
+cusco_simplified
 
-prov_sf <- geoperu::get_geo_peru(c("ANTA", "Urubamba", "calca"),
+prov_sf <- geoperu::get_geo_peru(geography = "ANTA",
                                  level = "prov", 
                                  simplified = TRUE)
 prov_sf
@@ -51,11 +57,18 @@ To visualize the retrieved geospatial information with the `get_geo_peru()` func
 Here's a basic example of how to visualize the data:
 
 ```{r}
+library(patchwork)
 library(ggplot2)
-prov_sf |> 
+plot1 <- cusco |> 
   ggplot() +
   geom_sf() +
   theme_bw()
 
+plot2 <- cusco_simplified |> 
+  ggplot() +
+  geom_sf() +
+  theme_bw()
+
+plot1 + plot2
 ```
 You can customize the plot by adding additional layers, adjusting styles, and adding labels according to your specific needs.

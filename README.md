@@ -11,83 +11,106 @@ experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](h
 status](https://www.r-pkg.org/badges/version/geoperu)](https://CRAN.R-project.org/package=geoperu)
 <!-- badges: end -->
 
-El paquete geoperu proporciona una interfaz conveniente para acceder a
-conjuntos de datos espaciales oficiales de Perú directamente desde R.
-Estos datos son recopilados del Instituto Nacional de Estadística e
-Informática (INEI) de Perú.
+The `geoperu` package provides a convenient interface to access official
+spatial datasets of Peru directly from R. These data are collected from
+the National Institute of Statistics and Informatics (INEI) of Peru.
 
-## Instalación
+## Installation
 
-Puedes instalar la versión de desarrollo de `geoperu` de la siguiente
-manera:
+You can install the development version of `geoperu` as follows:
 
 ``` r
 pak::pak("PaulESantos/geoperu")
 ```
 
-Para acceder a la información espacial de los distritos de cualquier
-provincia del Perú, puedes utilizar la función `get_prov_sf()`.
+To access spatial information of districts from any province in Peru,
+you can use the `get_geo_peru()` function.
 
 ``` r
-library(geoperu)
-#> This is geoperu 1.0.0
-cusco_sf <- geoperu::get_prov_sf("CUSCO")
-cusco_sf
-#> Simple feature collection with 8 features and 4 fields
-#> Geometry type: MULTIPOLYGON
-#> Dimension:     XY
-#> Bounding box:  xmin: -72.168 ymin: -13.64919 xmax: -71.80463 ymax: -13.4295
-#> Geodetic CRS:  WGS 84
-#> # A tibble: 8 × 5
-#>   departamento provincia distrito      capital                          geometry
-#> * <chr>        <chr>     <chr>         <chr>                  <MULTIPOLYGON [°]>
-#> 1 CUSCO        CUSCO     SANTIAGO      SANTIAGO      (((-71.97273 -13.52632, -7…
-#> 2 CUSCO        CUSCO     WANCHAQ       WANCHAQ       (((-71.94173 -13.52764, -7…
-#> 3 CUSCO        CUSCO     CCORCA        CCORCA        (((-72.06208 -13.52782, -7…
-#> 4 CUSCO        CUSCO     SAN SEBASTIAN SAN SEBASTIAN (((-71.88518 -13.49707, -7…
-#> 5 CUSCO        CUSCO     SAYLLA        SAYLLA        (((-71.81537 -13.50536, -7…
-#> 6 CUSCO        CUSCO     POROY         POROY         (((-72.05329 -13.53025, -7…
-#> 7 CUSCO        CUSCO     SAN JERONIMO  SAN JERONIMO  (((-71.8479 -13.48693, -71…
-#> 8 CUSCO        CUSCO     CUSCO         CUSCO         (((-71.93138 -13.43677, -7…
 
-prov_sf <- geoperu::get_prov_sf(c("ANTA", "Urubamba", "calca"))
-prov_sf
-#> Simple feature collection with 24 features and 4 fields
+library(geoperu)
+#> This is geoperu 0.0.0.1
+
+cusco <- geoperu::get_geo_peru(geography = "CUSCO", 
+                                  level = "dep",
+                                  simplified = FALSE)
+cusco
+#> Simple feature collection with 112 features and 4 fields
 #> Geometry type: MULTIPOLYGON
 #> Dimension:     XY
-#> Bounding box:  xmin: -72.77286 ymin: -13.71406 xmax: -71.71952 ymax: -12.50659
+#> Bounding box:  xmin: -73.9811 ymin: -15.45829 xmax: -70.34507 ymax: -11.21229
 #> Geodetic CRS:  WGS 84
-#> # A tibble: 24 × 5
-#>    departamento provincia distrito      capital                         geometry
-#>  * <chr>        <chr>     <chr>         <chr>                 <MULTIPOLYGON [°]>
-#>  1 CUSCO        CALCA     LARES         LARES          (((-71.90762 -13.02062, …
-#>  2 CUSCO        CALCA     CALCA         CALCA          (((-71.87228 -13.18779, …
-#>  3 CUSCO        CALCA     YANATILE      QUEBRADA HONDA (((-71.9039 -12.73066, -…
-#>  4 CUSCO        ANTA      CHINCHAYPUJIO CHINCHAYPUJIO  (((-72.25802 -13.52288, …
-#>  5 CUSCO        ANTA      ANTA          ANTA           (((-72.11767 -13.39649, …
-#>  6 CUSCO        ANTA      PUCYURA       PUCYURA        (((-72.06076 -13.50311, …
-#>  7 CUSCO        ANTA      CACHIMAYO     CACHIMAYO      (((-72.00248 -13.44256, …
-#>  8 CUSCO        CALCA     SAN SALVADOR  SAN SALVADOR   (((-71.75679 -13.43086, …
-#>  9 CUSCO        ANTA      MOLLEPATA     MOLLEPATA      (((-72.54716 -13.55565, …
-#> 10 CUSCO        ANTA      LIMATAMBO     LIMATAMBO      (((-72.54668 -13.33261, …
-#> # ℹ 14 more rows
+#> First 10 features:
+#>    departamento    provincia       distrito        capital
+#> 1         CUSCO      ESPINAR       PICHIGUA       PICHIGUA
+#> 2         CUSCO      ESPINAR    SUYCKUTAMBO SUYCKUTAMBO /5
+#> 3         CUSCO      ESPINAR       PALLPATA  HECTOR TEJADA
+#> 4         CUSCO      ESPINAR        ESPINAR          YAURI
+#> 5         CUSCO QUISPICANCHI ANDAHUAYLILLAS ANDAHUAYLILLAS
+#> 6         CUSCO        CALCA          LARES          LARES
+#> 7         CUSCO CHUMBIVILCAS         LLUSCO         LLUSCO
+#> 8         CUSCO      ESPINAR        OCORURO        OCORURO
+#> 9         CUSCO        CALCA          CALCA          CALCA
+#> 10        CUSCO      ACOMAYO   MOSOC LLACTA   MOSOC LLACTA
+#>                              geom
+#> 1  MULTIPOLYGON (((-71.18148 -...
+#> 2  MULTIPOLYGON (((-71.51302 -...
+#> 3  MULTIPOLYGON (((-70.97839 -...
+#> 4  MULTIPOLYGON (((-71.36934 -...
+#> 5  MULTIPOLYGON (((-71.6563 -1...
+#> 6  MULTIPOLYGON (((-71.90762 -...
+#> 7  MULTIPOLYGON (((-72.10355 -...
+#> 8  MULTIPOLYGON (((-71.05453 -...
+#> 9  MULTIPOLYGON (((-71.87228 -...
+#> 10 MULTIPOLYGON (((-71.43954 -...
+cusco_simplified <- geoperu::get_geo_peru(geography = "CUSCO", 
+                                  level = "dep",
+                                  simplified = TRUE)
+cusco_simplified
+#> Simple feature collection with 1 feature and 1 field
+#> Geometry type: POLYGON
+#> Dimension:     XY
+#> Bounding box:  xmin: -73.9811 ymin: -15.45829 xmax: -70.34507 ymax: -11.21229
+#> Geodetic CRS:  WGS 84
+#>   departamento                           geom
+#> 1        CUSCO POLYGON ((-70.8315 -14.0698...
+
+prov_sf <- geoperu::get_geo_peru(geography = "ANTA",
+                                 level = "prov", 
+                                 simplified = TRUE)
+prov_sf
+#> Simple feature collection with 1 feature and 1 field
+#> Geometry type: POLYGON
+#> Dimension:     XY
+#> Bounding box:  xmin: -72.77286 ymin: -13.71406 xmax: -72.00001 ymax: -13.28477
+#> Geodetic CRS:  WGS 84
+#>   provincia                           geom
+#> 1      ANTA POLYGON ((-72.11767 -13.396...
 ```
 
-Para visualizar la información geoespacial recuperada con la función
-get_prov_sf() del paquete geoperu, puedes utilizar diversas herramientas
-en R. Una opción común es utilizar la librería ggplot2 junto con la
-funcionalidad de visualización de objetos sf.
+To visualize the retrieved geospatial information with the
+`get_geo_peru()` function from the geoperu package, you can use various
+tools in R. A common option is to use the `ggplot2` library along with
+`sf` object visualization functionality.
 
-Aquí tienes un ejemplo básico de cómo visualizar los datos:
+Here’s a basic example of how to visualize the data:
 
 ``` r
+library(patchwork)
 library(ggplot2)
-prov_sf |> 
+plot1 <- cusco |> 
   ggplot() +
   geom_sf() +
   theme_bw()
+
+plot2 <- cusco_simplified |> 
+  ggplot() +
+  geom_sf() +
+  theme_bw()
+
+plot1 + plot2
 ```
 
-<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" />
-Puedes personalizar el gráfico agregando capas adicionales, ajustando
-los estilos y agregando etiquetas según tus necesidades específicas.
+<img src="man/figures/README-unnamed-chunk-2-1.png" width="100%" /> You
+can customize the plot by adding additional layers, adjusting styles,
+and adding labels according to your specific needs.
