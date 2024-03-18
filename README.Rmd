@@ -50,6 +50,10 @@ prov_sf <- geoperu::get_geo_peru(geography = "ANTA",
                                  level = "prov", 
                                  simplified = TRUE)
 prov_sf
+islay_sf <- geoperu::get_geo_peru(geography = "ISLAY",
+                                 level = "prov", 
+                                 simplified = FALSE)
+islay_sf
 ```
 
 To visualize the retrieved geospatial information with the `get_geo_peru()` function from the geoperu package, you can use various tools in R. A common option is to use the `ggplot2` library along with `sf` object visualization functionality.

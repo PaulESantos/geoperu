@@ -86,6 +86,29 @@ prov_sf
 #> Geodetic CRS:  WGS 84
 #>   provincia                           geom
 #> 1      ANTA POLYGON ((-72.11767 -13.396...
+islay_sf <- geoperu::get_geo_peru(geography = "ISLAY",
+                                 level = "prov", 
+                                 simplified = FALSE)
+islay_sf
+#> Simple feature collection with 6 features and 5 fields
+#> Geometry type: MULTIPOLYGON
+#> Dimension:     XY
+#> Bounding box:  xmin: -72.22384 ymin: -17.28501 xmax: -71.30225 ymax: -16.67504
+#> Geodetic CRS:  WGS 84
+#>              tag departamento provincia        distrito          capital
+#> 1 arequipa_islay     AREQUIPA     ISLAY PUNTA DE BOMBON  PUNTA DE BOMBON
+#> 2 arequipa_islay     AREQUIPA     ISLAY           MEJIA            MEJIA
+#> 3 arequipa_islay     AREQUIPA     ISLAY           ISLAY ISLAY (MATARANI)
+#> 4 arequipa_islay     AREQUIPA     ISLAY      COCACHACRA       COCACHACRA
+#> 5 arequipa_islay     AREQUIPA     ISLAY   DEAN VALDIVIA         LA CURVA
+#> 6 arequipa_islay     AREQUIPA     ISLAY        MOLLENDO         MOLLENDO
+#>                             geom
+#> 1 MULTIPOLYGON (((-71.44018 -...
+#> 2 MULTIPOLYGON (((-71.8306 -1...
+#> 3 MULTIPOLYGON (((-71.99808 -...
+#> 4 MULTIPOLYGON (((-71.48244 -...
+#> 5 MULTIPOLYGON (((-71.76488 -...
+#> 6 MULTIPOLYGON (((-71.66772 -...
 ```
 
 To visualize the retrieved geospatial information with the
