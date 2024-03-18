@@ -16,21 +16,33 @@
     <loc>https://paulesantos.github.io/geoperu/index.html</loc>
   </url>
   <url>
+    <loc>https://paulesantos.github.io/geoperu/reference/check_connection.html</loc>
+  </url>
+  <url>
+    <loc>https://paulesantos.github.io/geoperu/reference/download_gpkg.html</loc>
+  </url>
+  <url>
     <loc>https://paulesantos.github.io/geoperu/reference/download_metadata.html</loc>
   </url>
   <url>
-    <loc>https://paulesantos.github.io/geoperu/reference/get_dep_sf.html</loc>
-  </url>
-  <url>
-    <loc>https://paulesantos.github.io/geoperu/reference/get_prov_sf.html</loc>
+    <loc>https://paulesantos.github.io/geoperu/reference/get_geo_peru.html</loc>
   </url>
   <url>
     <loc>https://paulesantos.github.io/geoperu/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://paulesantos.github.io/geoperu/reference/load_gpkg.html</loc>
   </url>
   <url>
     <loc>https://paulesantos.github.io/geoperu/reference/peru.html</loc>
   </url>
   <url>
     <loc>https://paulesantos.github.io/geoperu/reference/select_data_level.html</loc>
+  </url>
+  <url>
+    <loc>https://paulesantos.github.io/geoperu/reference/select_data_type.html</loc>
+  </url>
+  <url>
+    <loc>https://paulesantos.github.io/geoperu/reference/select_metadata.html</loc>
   </url>
 </urlset>
