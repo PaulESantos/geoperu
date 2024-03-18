@@ -129,7 +129,30 @@
 <span><span class="co">#&gt; Bounding box:  xmin: -72.77286 ymin: -13.71406 xmax: -72.00001 ymax: -13.28477</span></span>
 <span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span>
 <span><span class="co">#&gt;   provincia                           geom</span></span>
-<span><span class="co">#&gt; 1      ANTA POLYGON ((-72.11767 -13.396...</span></span></code></pre></div>
+<span><span class="co">#&gt; 1      ANTA POLYGON ((-72.11767 -13.396...</span></span>
+<span><span class="va">islay_sf</span> <span class="op">&lt;-</span> <span class="fu">geoperu</span><span class="fu">::</span><span class="fu"><a href="reference/get_geo_peru.html">get_geo_peru</a></span><span class="op">(</span>geography <span class="op">=</span> <span class="st">"ISLAY"</span>,</span>
+<span>                                 level <span class="op">=</span> <span class="st">"prov"</span>, </span>
+<span>                                 simplified <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
+<span><span class="va">islay_sf</span></span>
+<span><span class="co">#&gt; Simple feature collection with 6 features and 5 fields</span></span>
+<span><span class="co">#&gt; Geometry type: MULTIPOLYGON</span></span>
+<span><span class="co">#&gt; Dimension:     XY</span></span>
+<span><span class="co">#&gt; Bounding box:  xmin: -72.22384 ymin: -17.28501 xmax: -71.30225 ymax: -16.67504</span></span>
+<span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span>
+<span><span class="co">#&gt;              tag departamento provincia        distrito          capital</span></span>
+<span><span class="co">#&gt; 1 arequipa_islay     AREQUIPA     ISLAY PUNTA DE BOMBON  PUNTA DE BOMBON</span></span>
+<span><span class="co">#&gt; 2 arequipa_islay     AREQUIPA     ISLAY           MEJIA            MEJIA</span></span>
+<span><span class="co">#&gt; 3 arequipa_islay     AREQUIPA     ISLAY           ISLAY ISLAY (MATARANI)</span></span>
+<span><span class="co">#&gt; 4 arequipa_islay     AREQUIPA     ISLAY      COCACHACRA       COCACHACRA</span></span>
+<span><span class="co">#&gt; 5 arequipa_islay     AREQUIPA     ISLAY   DEAN VALDIVIA         LA CURVA</span></span>
+<span><span class="co">#&gt; 6 arequipa_islay     AREQUIPA     ISLAY        MOLLENDO         MOLLENDO</span></span>
+<span><span class="co">#&gt;                             geom</span></span>
+<span><span class="co">#&gt; 1 MULTIPOLYGON (((-71.44018 -...</span></span>
+<span><span class="co">#&gt; 2 MULTIPOLYGON (((-71.8306 -1...</span></span>
+<span><span class="co">#&gt; 3 MULTIPOLYGON (((-71.99808 -...</span></span>
+<span><span class="co">#&gt; 4 MULTIPOLYGON (((-71.48244 -...</span></span>
+<span><span class="co">#&gt; 5 MULTIPOLYGON (((-71.76488 -...</span></span>
+<span><span class="co">#&gt; 6 MULTIPOLYGON (((-71.66772 -...</span></span></code></pre></div>
 <p>To visualize the retrieved geospatial information with the <code><a href="reference/get_geo_peru.html">get_geo_peru()</a></code> function from the geoperu package, you can use various tools in R. A common option is to use the <code>ggplot2</code> library along with <code>sf</code> object visualization functionality.</p>
 <p>Here’s a basic example of how to visualize the data:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
