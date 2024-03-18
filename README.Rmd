@@ -20,30 +20,35 @@ knitr::opts_chunk$set(
 [![CRAN status](https://www.r-pkg.org/badges/version/geoperu)](https://CRAN.R-project.org/package=geoperu)
 <!-- badges: end -->
 
-El paquete geoperu proporciona una interfaz conveniente para acceder a conjuntos de datos espaciales oficiales de Perú directamente desde R. Estos datos son recopilados del Instituto Nacional de Estadística e Informática (INEI) de Perú.
 
-## Instalación
+The `geoperu` package provides a convenient interface to access official spatial datasets of Peru directly from R. These data are collected from the National Institute of Statistics and Informatics (INEI) of Peru.
 
-Puedes instalar la versión de desarrollo de `geoperu` de la siguiente manera:
+## Installation
+
+You can install the development version of `geoperu` as follows:
 
 ``` r
 pak::pak("PaulESantos/geoperu")
 ```
 
-Para acceder a la información espacial de los distritos de cualquier provincia del Perú, puedes utilizar la función `get_prov_sf()`.
+To access spatial information of districts from any province in Peru, you can use the `get_geo_peru()` function.
 
 ```{r example}
+
 library(geoperu)
-cusco_sf <- geoperu::get_prov_sf("CUSCO")
+
+cusco_sf <- geoperu::get_geo_peru("CUSCO", level = "dep", simplified = FALSE)
 cusco_sf
 
-prov_sf <- geoperu::get_prov_sf(c("ANTA", "Urubamba", "calca"))
+prov_sf <- geoperu::get_geo_peru(c("ANTA", "Urubamba", "calca"),
+                                 level = "prov", 
+                                 simplified = TRUE)
 prov_sf
 ```
 
-Para visualizar la información geoespacial recuperada con la función get_prov_sf() del paquete geoperu, puedes utilizar diversas herramientas en R. Una opción común es utilizar la librería ggplot2 junto con la funcionalidad de visualización de objetos sf.
+To visualize the retrieved geospatial information with the `get_geo_peru()` function from the geoperu package, you can use various tools in R. A common option is to use the `ggplot2` library along with `sf` object visualization functionality.
 
-Aquí tienes un ejemplo básico de cómo visualizar los datos:
+Here's a basic example of how to visualize the data:
 
 ```{r}
 library(ggplot2)
@@ -53,4 +58,4 @@ prov_sf |>
   theme_bw()
 
 ```
-Puedes personalizar el gráfico agregando capas adicionales, ajustando los estilos y agregando etiquetas según tus necesidades específicas.
+You can customize the plot by adding additional layers, adjusting styles, and adding labels according to your specific needs.
