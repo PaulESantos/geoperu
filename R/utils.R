@@ -50,9 +50,6 @@ select_data_level <- function(temp_meta, level = "prov"){
 #' Support function to download metadata internally used
 #'
 #' @keywords internal
-#' @examples \dontrun{ if (interactive()) {
-#' df <- download_metadata()
-#' }}
 download_metadata <- function(){
 
   # create tempfile to save metadata
@@ -97,12 +94,6 @@ download_metadata <- function(){
 #'        'simplified' borders (Defaults to TRUE).
 #'
 #' @keywords internal
-#' @examples \dontrun{ if (interactive()) {
-#'
-#'
-#' df <- download_metadata()
-#'
-#' }}
 #'
 select_metadata <- function(geography, level = "all", simplified=NULL){
   geography <- trimws(toupper(geography))

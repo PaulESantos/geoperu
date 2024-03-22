@@ -15,22 +15,22 @@
 #' @export
 #'
 #' @examples
-#'
+#' \donttest{
 #' # Read specific province
 #' anta <- get_geo_peru(geography = "ANTA",
 #'                      level = "prov",
 #'                      simplified = TRUE)
 #'
 #' # Read more than one province
-#' df <- get_geo_peru(geography = c("ANTA", "URUBAMBA", "la convencion"),
+#' df <- get_geo_peru(geography = c("CALCA"),
 #'                    level = "prov",
-#'                    simplified = TRUE)
+#'                    simplified = FALSE)
 #'
 #' # Read department level data
 #' cusco <- get_geo_peru(geography = "cusco",
 #'                       level = "dep",
-#'                       simplified = FALSE)
-#'
+#'                       simplified = TRUE)
+#'}
 get_geo_peru<-  function(geography = "all",
                          level = "all",
                          simplified = TRUE,

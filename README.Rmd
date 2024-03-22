@@ -16,10 +16,13 @@ knitr::opts_chunk$set(
 # geoperu
 
 <!-- badges: start -->
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![CRAN status](https://www.r-pkg.org/badges/version/geoperu)](https://CRAN.R-project.org/package=geoperu)
+[![](http://cranlogs.r-pkg.org/badges/grand-total/geoperu?color=green)](https://cran.r-project.org/package=geoperu)
+[![](http://cranlogs.r-pkg.org/badges/last-week/geoperu?color=green)](https://cran.r-project.org/package=geoperu)
+[![Codecov test coverage](https://codecov.io/gh/PaulESantos/geoperu/branch/main/graph/badge.svg)](https://app.codecov.io/gh/PaulESantos/geoperu?branch=main)
+[![R-CMD-check](https://github.com/PaulESantos/geoperu/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/PaulESantos/geoperu/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
-
 
 The `geoperu` package provides a convenient interface to access official spatial datasets of Peru directly from R. These data are collected from the National Institute of Statistics and Informatics (INEI) of Peru.
 

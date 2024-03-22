@@ -16,13 +16,4 @@ returns the 'original' dataset with high resolution or a dataset with
 \description{
 Select metadata
 }
-\examples{
-\dontrun{ if (interactive()) {
-
-
-df <- download_metadata()
-
-}}
-
-}
 \keyword{internal}

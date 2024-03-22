@@ -30,20 +30,20 @@ An \verb{"sf" "data.frame"} object containing the spatial data of Peru.
 Downloads spatial data of Peru using Geodetic reference system "WGRS84" and CRS(4326).
 }
 \examples{
-
+\donttest{
 # Read specific province
 anta <- get_geo_peru(geography = "ANTA",
                      level = "prov",
                      simplified = TRUE)
 
 # Read more than one province
-df <- get_geo_peru(geography = c("ANTA", "URUBAMBA", "la convencion"),
+df <- get_geo_peru(geography = c("CALCA"),
                    level = "prov",
-                   simplified = TRUE)
+                   simplified = FALSE)
 
 # Read department level data
 cusco <- get_geo_peru(geography = "cusco",
                       level = "dep",
-                      simplified = FALSE)
-
+                      simplified = TRUE)
+}
 }
