@@ -1,6 +1,6 @@
 utils::globalVariables(c( ".data", "provincia", "departamento",
                           "dep_name", "prov_name", "file_url", "file_url2",
-                          "showProgress", "tail"
+                          "showProgress", "tail", "anp_nombre"
 ))
 
 

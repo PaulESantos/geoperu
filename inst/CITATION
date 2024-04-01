@@ -1,0 +1,10 @@
+bibentry(
+  bibtype = "Manual",
+  textVersion = "Santos Andrade, P.E. (2024). geoperu: Download Spatial Datasets of Peru. Version 0.0.0.2",
+  header = "To cite geoperu in publications use:",
+  author = "Paul E. Santos Andrade",
+  title = "geoperu: Download Spatial Datasets of Peru",
+  year = "2024",
+  note = "R package version 0.0.0.2",
+  url = "https://paulesantos.github.io/geoperu/",
+)

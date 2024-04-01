@@ -78,4 +78,19 @@ plot2 <- cusco_simplified |>
 
 plot1 + plot2
 ```
+
+`geoperu` also provides access to spatial information of natural protected areas in Peru. These areas, managed and declared by the National Service of Natural Protected Areas (SERNAP), encompass a diverse range of ecosystems. The `get_anp_peru()` function allows users to download spatial data representing these protected areas directly into their R environment.
+
+
+```{r}
+manu <- get_anp_peru(anp = "manu")
+manu
+
+manu |> 
+  ggplot() +
+  geom_sf() +
+  theme_bw()
+
+```
+
 You can customize the plot by adding additional layers, adjusting styles, and adding labels according to your specific needs.
