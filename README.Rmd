@@ -11,6 +11,7 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
+
 ```
 
 # geoperu
@@ -22,6 +23,9 @@ knitr::opts_chunk$set(
 [![](http://cranlogs.r-pkg.org/badges/last-week/geoperu?color=green)](https://cran.r-project.org/package=geoperu)
 [![Codecov test coverage](https://codecov.io/gh/PaulESantos/geoperu/branch/main/graph/badge.svg)](https://app.codecov.io/gh/PaulESantos/geoperu?branch=main)
 [![R-CMD-check](https://github.com/PaulESantos/geoperu/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/PaulESantos/geoperu/actions/workflows/R-CMD-check.yaml)
+[![doi](https://img.shields.io/badge/doi-10.32614/CRAN.package.geoperu-blue.svg)](https://doi.org/10.32614/CRAN.package.geoperu)
+
+
 <!-- badges: end -->
 
 The `geoperu` package provides a convenient interface to access official spatial datasets of Peru directly from R. These data are collected from the National Institute of Statistics and Informatics (INEI) of Peru.
