@@ -6,6 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Download Spatial Datasets of Peru • geoperu</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
 <script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/Jost-0.4.9/font.css" rel="stylesheet">
@@ -16,6 +22,7 @@
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Download Spatial Datasets of Peru">
 <meta name="description" content="Provides convenient access to the official spatial datasets of Peru as sf objects in R. This package includes a wide range of geospatial data covering various aspects of Peruvian geography, such as: administrative divisions (Source: INEI &lt;https://ide.inei.gob.pe/&gt;), protected natural areas (Source: GEO ANP - SERNANP &lt;https://geo.sernanp.gob.pe/visorsernanp/&gt;). All datasets are harmonized in terms of attributes, projection, and topology, ensuring consistency and ease of use for spatial analysis and visualization.">
 <meta property="og:description" content="Provides convenient access to the official spatial datasets of Peru as sf objects in R. This package includes a wide range of geospatial data covering various aspects of Peruvian geography, such as: administrative divisions (Source: INEI &lt;https://ide.inei.gob.pe/&gt;), protected natural areas (Source: GEO ANP - SERNANP &lt;https://geo.sernanp.gob.pe/visorsernanp/&gt;). All datasets are harmonized in terms of attributes, projection, and topology, ensuring consistency and ease of use for spatial analysis and visualization.">
+<meta property="og:image" content="https://paulesantos.github.io/geoperu/logo.png">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
@@ -49,12 +56,19 @@
 </nav><div class="container template-home">
 <div class="row">
   <main id="main" class="col-md-9"><div class="section level1">
-<div class="page-header"><h1 id="geoperu">geoperu<a class="anchor" aria-label="anchor" href="#geoperu"></a>
-</h1></div>
+<div class="page-header">
+<img src="logo.png" class="logo" alt=""><h1 id="geoperu">geoperu<a class="anchor" aria-label="anchor" href="#geoperu"></a>
+</h1>
+</div>
+<div class="section level2">
+<h2 id="section">
+<a href="https://github.com/PaulESantos/geoperu" class="external-link"><img src="inst/figures/logo.png" align="right" height="180" width="180"></a><a class="anchor" aria-label="anchor" href="#section"></a>
+</h2>
 <!-- badges: start -->
 
-<!-- badges: end -->
+<p><a href="https://lifecycle.r-lib.org/articles/stages.html#stable" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a> <!-- badges: end --></p>
 <p>The <code>geoperu</code> package provides a convenient interface to access official spatial datasets of Peru directly from R. These data are collected from the National Institute of Statistics and Informatics (INEI) of Peru.</p>
+</div>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
@@ -181,7 +195,9 @@
 <span>  <span class="fu">geom_sf</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="reference/figures/README-unnamed-chunk-3-1.png" width="100%"></p>
-<p>You can customize the plot by adding additional layers, adjusting styles, and adding labels according to your specific needs.</p>
+<ul>
+<li>You can customize the plot by adding additional layers, adjusting styles, and adding labels according to your specific needs.</li>
+</ul>
 </div>
 </div>
   </main><aside class="col-md-3"><div class="links">
@@ -219,7 +235,6 @@
 <div class="dev-status">
 <h2 data-toc-skip>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://lifecycle.r-lib.org/articles/stages.html" class="external-link"><img src="https://img.shields.io/badge/lifecycle-stable-blue.svg" alt="Lifecycle: stable"></a></li>
 <li><a href="https://CRAN.R-project.org/package=geoperu" class="external-link"><img src="https://www.r-pkg.org/badges/version/geoperu" alt="CRAN status"></a></li>
 <li><a href="https://cran.r-project.org/package=geoperu" class="external-link"><img src="http://cranlogs.r-pkg.org/badges/grand-total/geoperu?color=green"></a></li>
 <li><a href="https://cran.r-project.org/package=geoperu" class="external-link"><img src="http://cranlogs.r-pkg.org/badges/last-week/geoperu?color=green"></a></li>
