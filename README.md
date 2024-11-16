@@ -3,10 +3,10 @@
 
 # geoperu
 
+## <a href='https://github.com/PaulESantos/geoperu'><img src='inst/figures/logo.png' align="right" height="180" width="180" /></a>
+
 <!-- badges: start -->
 
-[![Lifecycle:
-stable](https://img.shields.io/badge/lifecycle-stable-blue.svg)](https://lifecycle.r-lib.org/articles/stages.html)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/geoperu)](https://CRAN.R-project.org/package=geoperu)
 [![](http://cranlogs.r-pkg.org/badges/grand-total/geoperu?color=green)](https://cran.r-project.org/package=geoperu)
@@ -16,6 +16,8 @@ coverage](https://codecov.io/gh/PaulESantos/geoperu/branch/main/graph/badge.svg)
 [![R-CMD-check](https://github.com/PaulESantos/geoperu/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/PaulESantos/geoperu/actions/workflows/R-CMD-check.yaml)
 [![doi](https://img.shields.io/badge/doi-10.32614/CRAN.package.geoperu-blue.svg)](https://doi.org/10.32614/CRAN.package.geoperu)
 
+[![Lifecycle:
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 <!-- badges: end -->
 
 The `geoperu` package provides a convenient interface to access official
@@ -171,5 +173,5 @@ manu |>
 
 <img src="man/figures/README-unnamed-chunk-3-1.png" width="100%" />
 
-You can customize the plot by adding additional layers, adjusting
-styles, and adding labels according to your specific needs.
+- You can customize the plot by adding additional layers, adjusting
+  styles, and adding labels according to your specific needs.
