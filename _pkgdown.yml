@@ -1,6 +1,27 @@
 url: https://paulesantos.github.io/geoperu/
+authors:
+  Paul E. Santos Andrade:
+  href: https://paulefrensa.rbind.io/
 template:
   bootstrap: 5
-  bootswatch: cerulean
-  lang: es
-
+  bslib:
+    font_scale: 1.0
+    base_font:
+      google: "Jost"
+    code_font:
+      google: "Overpass Mono"
+    heading_font:
+      google: "Abhaya Libre"
+    bg: "#F5F3EE"         # Suavizado, tono arena de los Andes
+    fg: "#3C3C3B"         # Gris oscuro, excelente contraste para texto
+    primary: "#3A6351"    # Verde hoja andina
+    secondary: "#A5C9CA"  # Azul suave inspirado en cielos y aguas
+    link-color: "#4A89A2" # Azul intenso, evocando los cielos de gran altitud
+    info: "#A5C9CA"       # Para badges, armonizando con azul secundario
+    headings-color: "#5A4632" # Marrón inspirado en la tierra andina
+    # Navbar
+    navbar-bg: "#F5F3EE"  # Igualando al fondo del sitio
+    navbar-light-color: "#3A6351" # Verde primario para texto en navbar
+    navbar-light-hover-color: "#4A89A2" # Azul intenso para hover
+development:
+  mode: auto

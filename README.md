@@ -15,7 +15,6 @@ status](https://www.r-pkg.org/badges/version/geoperu)](https://CRAN.R-project.or
 coverage](https://codecov.io/gh/PaulESantos/geoperu/branch/main/graph/badge.svg)](https://app.codecov.io/gh/PaulESantos/geoperu?branch=main)
 [![R-CMD-check](https://github.com/PaulESantos/geoperu/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/PaulESantos/geoperu/actions/workflows/R-CMD-check.yaml)
 [![doi](https://img.shields.io/badge/doi-10.32614/CRAN.package.geoperu-blue.svg)](https://doi.org/10.32614/CRAN.package.geoperu)
-[![Coverage](https://raw.githubusercontent.com/PaulESantos/geoperu/_xml_coverage_reports/data/master/badge.svg)](https://raw.githubusercontent.com/PaulESantos/geoperu/_xml_coverage_reports/data/master/coverage.xml)
 
 <!-- badges: end -->
 
