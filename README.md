@@ -3,8 +3,6 @@
 
 # geoperu
 
-## <a href='https://github.com/PaulESantos/geoperu'><img src='inst/figures/logo.png' align="right" height="180" width="180" /></a>
-
 <!-- badges: start -->
 
 [![CRAN
