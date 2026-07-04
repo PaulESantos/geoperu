@@ -6,22 +6,21 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Download Spatial Datasets of Peru • geoperu</title>
-<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
-<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
-<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
-<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
-<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
-<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+<link rel="icon" sizes="any" href="favicon.ico">
+<link rel="manifest" href="site.webmanifest">
 <script src="deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<link href="deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
-<script src="deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="deps/Jost-0.4.9/font.css" rel="stylesheet">
-<link href="deps/Overpass_Mono-0.4.9/font.css" rel="stylesheet">
-<link href="deps/Abhaya_Libre-0.4.9/font.css" rel="stylesheet">
-<link href="deps/font-awesome-6.4.2/css/all.min.css" rel="stylesheet">
-<link href="deps/font-awesome-6.4.2/css/v4-shims.min.css" rel="stylesheet">
+<link href="deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
+<script src="deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="deps/Jost-0.4.10/font.css" rel="stylesheet">
+<link href="deps/Overpass_Mono-0.4.10/font.css" rel="stylesheet">
+<link href="deps/Abhaya_Libre-0.4.10/font.css" rel="stylesheet">
+<link href="deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
 <script src="deps/headroom-0.11.0/headroom.min.js"></script><script src="deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="deps/search-1.0.0/fuse.min.js"></script><script src="deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="pkgdown.js"></script><meta property="og:title" content="Download Spatial Datasets of Peru">
-<meta name="description" content="Provides convenient access to the official spatial datasets of Peru as sf objects in R. This package includes a wide range of geospatial data covering various aspects of Peruvian geography, such as: administrative divisions (Source: INEI &lt;https://ide.inei.gob.pe/&gt;), protected natural areas (Source: GEO ANP - SERNANP &lt;https://geo.sernanp.gob.pe/visorsernanp/&gt;). All datasets are harmonized in terms of attributes, projection, and topology, ensuring consistency and ease of use for spatial analysis and visualization.">
-<meta property="og:description" content="Provides convenient access to the official spatial datasets of Peru as sf objects in R. This package includes a wide range of geospatial data covering various aspects of Peruvian geography, such as: administrative divisions (Source: INEI &lt;https://ide.inei.gob.pe/&gt;), protected natural areas (Source: GEO ANP - SERNANP &lt;https://geo.sernanp.gob.pe/visorsernanp/&gt;). All datasets are harmonized in terms of attributes, projection, and topology, ensuring consistency and ease of use for spatial analysis and visualization.">
+<meta name="description" content="Provides access to official spatial datasets of Peru as sf objects in R. Includes administrative boundaries from the National Institute of Statistics and Informatics (INEI) &lt;https://ide.inei.gob.pe/&gt; and protected natural areas from the National Service of Natural Areas Protected by the State (SERNANP) &lt;https://geo.sernanp.gob.pe/visorsernanp/&gt;. Harmonizes attributes, coordinate reference systems, and topology to support consistent spatial analysis and visualization.">
+<meta property="og:description" content="Provides access to official spatial datasets of Peru as sf objects in R. Includes administrative boundaries from the National Institute of Statistics and Informatics (INEI) &lt;https://ide.inei.gob.pe/&gt; and protected natural areas from the National Service of Natural Areas Protected by the State (SERNANP) &lt;https://geo.sernanp.gob.pe/visorsernanp/&gt;. Harmonizes attributes, coordinate reference systems, and topology to support consistent spatial analysis and visualization.">
 <meta property="og:image" content="https://paulesantos.github.io/geoperu/logo.png">
 </head>
 <body>
@@ -32,7 +31,7 @@
 
     <a class="navbar-brand me-2" href="index.html">geoperu</a>
 
-    <small class="nav-text text-danger me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Unreleased version">0.0.0.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,6 +41,7 @@
     <div id="navbar" class="collapse navbar-collapse ms-3">
       <ul class="navbar-nav me-auto">
 <li class="nav-item"><a class="nav-link" href="reference/index.html">Reference</a></li>
+<li class="nav-item"><a class="nav-link" href="news/index.html">Changelog</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -67,96 +67,37 @@
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>You can install the development version of <code>geoperu</code> as follows:</p>
+<p>Install the released version of <code>geoperu</code> from CRAN:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"geoperu"</span><span class="op">)</span></span></code></pre></div>
+<p>Install the development version from GitHub with <code>pak</code>:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">pak</span><span class="fu">::</span><span class="fu"><a href="https://pak.r-lib.org/reference/pak.html" class="external-link">pak</a></span><span class="op">(</span><span class="st">"PaulESantos/geoperu"</span><span class="op">)</span></span></code></pre></div>
 <p>To access spatial information of districts from any province in Peru, you can use the <code><a href="reference/get_geo_peru.html">get_geo_peru()</a></code> function.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/PaulESantos/geoperu" class="external-link">geoperu</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; This is geoperu 0.0.0.2</span></span>
 <span></span>
 <span><span class="va">cusco</span> <span class="op">&lt;-</span> <span class="fu">geoperu</span><span class="fu">::</span><span class="fu"><a href="reference/get_geo_peru.html">get_geo_peru</a></span><span class="op">(</span>geography <span class="op">=</span> <span class="st">"CUSCO"</span>, </span>
 <span>                                  level <span class="op">=</span> <span class="st">"dep"</span>,</span>
 <span>                                  simplified <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
 <span><span class="va">cusco</span></span>
-<span><span class="co">#&gt; Simple feature collection with 112 features and 4 fields</span></span>
-<span><span class="co">#&gt; Geometry type: MULTIPOLYGON</span></span>
-<span><span class="co">#&gt; Dimension:     XY</span></span>
-<span><span class="co">#&gt; Bounding box:  xmin: -73.9811 ymin: -15.45829 xmax: -70.34507 ymax: -11.21229</span></span>
-<span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span>
-<span><span class="co">#&gt; First 10 features:</span></span>
-<span><span class="co">#&gt;    departamento    provincia       distrito        capital</span></span>
-<span><span class="co">#&gt; 1         CUSCO      ESPINAR       PICHIGUA       PICHIGUA</span></span>
-<span><span class="co">#&gt; 2         CUSCO      ESPINAR    SUYCKUTAMBO SUYCKUTAMBO /5</span></span>
-<span><span class="co">#&gt; 3         CUSCO      ESPINAR       PALLPATA  HECTOR TEJADA</span></span>
-<span><span class="co">#&gt; 4         CUSCO      ESPINAR        ESPINAR          YAURI</span></span>
-<span><span class="co">#&gt; 5         CUSCO QUISPICANCHI ANDAHUAYLILLAS ANDAHUAYLILLAS</span></span>
-<span><span class="co">#&gt; 6         CUSCO        CALCA          LARES          LARES</span></span>
-<span><span class="co">#&gt; 7         CUSCO CHUMBIVILCAS         LLUSCO         LLUSCO</span></span>
-<span><span class="co">#&gt; 8         CUSCO      ESPINAR        OCORURO        OCORURO</span></span>
-<span><span class="co">#&gt; 9         CUSCO        CALCA          CALCA          CALCA</span></span>
-<span><span class="co">#&gt; 10        CUSCO      ACOMAYO   MOSOC LLACTA   MOSOC LLACTA</span></span>
-<span><span class="co">#&gt;                              geom</span></span>
-<span><span class="co">#&gt; 1  MULTIPOLYGON (((-71.18148 -...</span></span>
-<span><span class="co">#&gt; 2  MULTIPOLYGON (((-71.51302 -...</span></span>
-<span><span class="co">#&gt; 3  MULTIPOLYGON (((-70.97839 -...</span></span>
-<span><span class="co">#&gt; 4  MULTIPOLYGON (((-71.36934 -...</span></span>
-<span><span class="co">#&gt; 5  MULTIPOLYGON (((-71.6563 -1...</span></span>
-<span><span class="co">#&gt; 6  MULTIPOLYGON (((-71.90762 -...</span></span>
-<span><span class="co">#&gt; 7  MULTIPOLYGON (((-72.10355 -...</span></span>
-<span><span class="co">#&gt; 8  MULTIPOLYGON (((-71.05453 -...</span></span>
-<span><span class="co">#&gt; 9  MULTIPOLYGON (((-71.87228 -...</span></span>
-<span><span class="co">#&gt; 10 MULTIPOLYGON (((-71.43954 -...</span></span>
 <span><span class="va">cusco_simplified</span> <span class="op">&lt;-</span> <span class="fu">geoperu</span><span class="fu">::</span><span class="fu"><a href="reference/get_geo_peru.html">get_geo_peru</a></span><span class="op">(</span>geography <span class="op">=</span> <span class="st">"CUSCO"</span>, </span>
 <span>                                  level <span class="op">=</span> <span class="st">"dep"</span>,</span>
 <span>                                  simplified <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">cusco_simplified</span></span>
-<span><span class="co">#&gt; Simple feature collection with 1 feature and 1 field</span></span>
-<span><span class="co">#&gt; Geometry type: POLYGON</span></span>
-<span><span class="co">#&gt; Dimension:     XY</span></span>
-<span><span class="co">#&gt; Bounding box:  xmin: -73.9811 ymin: -15.45829 xmax: -70.34507 ymax: -11.21229</span></span>
-<span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span>
-<span><span class="co">#&gt;   departamento                           geom</span></span>
-<span><span class="co">#&gt; 1        CUSCO POLYGON ((-70.8315 -14.0698...</span></span>
 <span></span>
 <span><span class="va">prov_sf</span> <span class="op">&lt;-</span> <span class="fu">geoperu</span><span class="fu">::</span><span class="fu"><a href="reference/get_geo_peru.html">get_geo_peru</a></span><span class="op">(</span>geography <span class="op">=</span> <span class="st">"ANTA"</span>,</span>
 <span>                                 level <span class="op">=</span> <span class="st">"prov"</span>, </span>
 <span>                                 simplified <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="va">prov_sf</span></span>
-<span><span class="co">#&gt; Simple feature collection with 1 feature and 1 field</span></span>
-<span><span class="co">#&gt; Geometry type: POLYGON</span></span>
-<span><span class="co">#&gt; Dimension:     XY</span></span>
-<span><span class="co">#&gt; Bounding box:  xmin: -72.77286 ymin: -13.71406 xmax: -72.00001 ymax: -13.28477</span></span>
-<span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span>
-<span><span class="co">#&gt;   provincia                           geom</span></span>
-<span><span class="co">#&gt; 1      ANTA POLYGON ((-72.11767 -13.396...</span></span>
 <span><span class="va">islay_sf</span> <span class="op">&lt;-</span> <span class="fu">geoperu</span><span class="fu">::</span><span class="fu"><a href="reference/get_geo_peru.html">get_geo_peru</a></span><span class="op">(</span>geography <span class="op">=</span> <span class="st">"ISLAY"</span>,</span>
 <span>                                 level <span class="op">=</span> <span class="st">"prov"</span>, </span>
 <span>                                 simplified <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span>
-<span><span class="va">islay_sf</span></span>
-<span><span class="co">#&gt; Simple feature collection with 6 features and 5 fields</span></span>
-<span><span class="co">#&gt; Geometry type: MULTIPOLYGON</span></span>
-<span><span class="co">#&gt; Dimension:     XY</span></span>
-<span><span class="co">#&gt; Bounding box:  xmin: -72.22384 ymin: -17.28501 xmax: -71.30225 ymax: -16.67504</span></span>
-<span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span>
-<span><span class="co">#&gt;              tag departamento provincia        distrito          capital</span></span>
-<span><span class="co">#&gt; 1 arequipa_islay     AREQUIPA     ISLAY PUNTA DE BOMBON  PUNTA DE BOMBON</span></span>
-<span><span class="co">#&gt; 2 arequipa_islay     AREQUIPA     ISLAY           MEJIA            MEJIA</span></span>
-<span><span class="co">#&gt; 3 arequipa_islay     AREQUIPA     ISLAY           ISLAY ISLAY (MATARANI)</span></span>
-<span><span class="co">#&gt; 4 arequipa_islay     AREQUIPA     ISLAY      COCACHACRA       COCACHACRA</span></span>
-<span><span class="co">#&gt; 5 arequipa_islay     AREQUIPA     ISLAY   DEAN VALDIVIA         LA CURVA</span></span>
-<span><span class="co">#&gt; 6 arequipa_islay     AREQUIPA     ISLAY        MOLLENDO         MOLLENDO</span></span>
-<span><span class="co">#&gt;                             geom</span></span>
-<span><span class="co">#&gt; 1 MULTIPOLYGON (((-71.44018 -...</span></span>
-<span><span class="co">#&gt; 2 MULTIPOLYGON (((-71.8306 -1...</span></span>
-<span><span class="co">#&gt; 3 MULTIPOLYGON (((-71.99808 -...</span></span>
-<span><span class="co">#&gt; 4 MULTIPOLYGON (((-71.48244 -...</span></span>
-<span><span class="co">#&gt; 5 MULTIPOLYGON (((-71.76488 -...</span></span>
-<span><span class="co">#&gt; 6 MULTIPOLYGON (((-71.66772 -...</span></span></code></pre></div>
+<span><span class="va">islay_sf</span></span></code></pre></div>
 <p>To visualize the retrieved geospatial information with the <code><a href="reference/get_geo_peru.html">get_geo_peru()</a></code> function from the geoperu package, you can use various tools in R. A common option is to use the <code>ggplot2</code> library along with <code>sf</code> object visualization functionality.</p>
 <p>Here’s a basic example of how to visualize the data:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://patchwork.data-imaginist.com" class="external-link">patchwork</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span><span class="va">plot1</span> <span class="op">&lt;-</span> <span class="va">cusco</span> <span class="op">|&gt;</span> </span>
@@ -170,26 +111,15 @@
 <span>  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">plot1</span> <span class="op">+</span> <span class="va">plot2</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-2-1.png" width="100%"></p>
-<p><code>geoperu</code> also provides access to spatial information of natural protected areas in Peru. These areas, managed and declared by the National Service of Natural Protected Areas (SERNAP), encompass a diverse range of ecosystems. The <code><a href="reference/get_anp_peru.html">get_anp_peru()</a></code> function allows users to download spatial data representing these protected areas directly into their R environment.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<p><code>geoperu</code> also provides access to spatial information of natural protected areas in Peru. These areas, managed and declared by the National Service of Natural Areas Protected by the State (SERNANP), encompass a diverse range of ecosystems. The <code><a href="reference/get_anp_peru.html">get_anp_peru()</a></code> function allows users to download spatial data representing these protected areas directly into their R environment.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">manu</span> <span class="op">&lt;-</span> <span class="fu"><a href="reference/get_anp_peru.html">get_anp_peru</a></span><span class="op">(</span>anp <span class="op">=</span> <span class="st">"manu"</span><span class="op">)</span></span>
 <span><span class="va">manu</span></span>
-<span><span class="co">#&gt; Simple feature collection with 1 feature and 4 fields</span></span>
-<span><span class="co">#&gt; Geometry type: POLYGON</span></span>
-<span><span class="co">#&gt; Dimension:     XY</span></span>
-<span><span class="co">#&gt; Bounding box:  xmin: -72.41719 ymin: -13.2059 xmax: -70.85217 ymax: -11.31585</span></span>
-<span><span class="co">#&gt; Geodetic CRS:  WGS 84</span></span>
-<span><span class="co">#&gt;          anp_cate anp_nombre anp_sect              anp_ubpo</span></span>
-<span><span class="co">#&gt; 1 Parque Nacional       Manu     &lt;NA&gt; Cusco y Madre de Dios</span></span>
-<span><span class="co">#&gt;                             geom</span></span>
-<span><span class="co">#&gt; 1 POLYGON ((-71.36212 -11.656...</span></span>
 <span></span>
 <span><span class="va">manu</span> <span class="op">|&gt;</span> </span>
 <span>  <span class="fu">ggplot</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">geom_sf</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="reference/figures/README-unnamed-chunk-3-1.png" width="100%"></p>
 <ul>
 <li>You can customize the plot by adding additional layers, adjusting styles, and adding labels according to your specific needs.</li>
 </ul>
@@ -223,21 +153,11 @@
 <div class="developers">
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
-<li>Paul E. Santos Andrade <br><small class="roles"> Author, maintainer </small> <a href="https://orcid.org/0000-0002-6635-0375" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a> </li>
+<li>Paul E. Santos Andrade <br><small class="roles"> Author, maintainer, copyright holder </small> <a href="https://orcid.org/0000-0002-6635-0375" target="orcid.widget" aria-label="ORCID" class="external-link"><span class="fab fa-orcid orcid" aria-hidden="true"></span></a>  </li>
 </ul>
 </div>
 
-<div class="dev-status">
-<h2 data-toc-skip>Dev status</h2>
-<ul class="list-unstyled">
-<li><a href="https://CRAN.R-project.org/package=geoperu" class="external-link"><img src="https://www.r-pkg.org/badges/version/geoperu" alt="CRAN status"></a></li>
-<li><a href="https://cran.r-project.org/package=geoperu" class="external-link"><img src="http://cranlogs.r-pkg.org/badges/grand-total/geoperu?color=green"></a></li>
-<li><a href="https://cran.r-project.org/package=geoperu" class="external-link"><img src="http://cranlogs.r-pkg.org/badges/last-week/geoperu?color=green"></a></li>
-<li><a href="https://app.codecov.io/gh/PaulESantos/geoperu?branch=main" class="external-link"><img src="https://codecov.io/gh/PaulESantos/geoperu/branch/main/graph/badge.svg" alt="Codecov test coverage"></a></li>
-<li><a href="https://github.com/PaulESantos/geoperu/actions/workflows/R-CMD-check.yaml" class="external-link"><img src="https://github.com/PaulESantos/geoperu/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check"></a></li>
-<li><a href="https://doi.org/10.32614/CRAN.package.geoperu" class="external-link"><img src="https://img.shields.io/badge/doi-10.32614/CRAN.package.geoperu-blue.svg" alt="doi"></a></li>
-</ul>
-</div>
+
 
   </aside>
 </div>
@@ -248,7 +168,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
     </footer>
