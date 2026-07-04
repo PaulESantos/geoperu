@@ -7,3 +7,6 @@
 ^docs$
 ^pkgdown$
 ^\.github$
+^\.agent$
+^check.*$
+^AGENTS\.md$

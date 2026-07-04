@@ -9,7 +9,8 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
-  out.width = "100%"
+  out.width = "100%",
+  eval = FALSE
 )
 
 ```
@@ -19,8 +20,8 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 
 [![CRAN status](https://www.r-pkg.org/badges/version/geoperu)](https://CRAN.R-project.org/package=geoperu)
-[![](http://cranlogs.r-pkg.org/badges/grand-total/geoperu?color=green)](https://cran.r-project.org/package=geoperu)
-[![](http://cranlogs.r-pkg.org/badges/last-week/geoperu?color=green)](https://cran.r-project.org/package=geoperu)
+[![](https://cranlogs.r-pkg.org/badges/grand-total/geoperu?color=green)](https://cran.r-project.org/package=geoperu)
+[![](https://cranlogs.r-pkg.org/badges/last-week/geoperu?color=green)](https://cran.r-project.org/package=geoperu)
 [![Codecov test coverage](https://codecov.io/gh/PaulESantos/geoperu/branch/main/graph/badge.svg)](https://app.codecov.io/gh/PaulESantos/geoperu?branch=main)
 [![R-CMD-check](https://github.com/PaulESantos/geoperu/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/PaulESantos/geoperu/actions/workflows/R-CMD-check.yaml)
 [![doi](https://img.shields.io/badge/doi-10.32614/CRAN.package.geoperu-blue.svg)](https://doi.org/10.32614/CRAN.package.geoperu)
@@ -32,7 +33,13 @@ The `geoperu` package provides a convenient interface to access official spatial
 
 ## Installation
 
-You can install the development version of `geoperu` as follows:
+Install the released version of `geoperu` from CRAN:
+
+``` r
+install.packages("geoperu")
+```
+
+Install the development version from GitHub with `pak`:
 
 ``` r
 pak::pak("PaulESantos/geoperu")
@@ -83,7 +90,7 @@ plot2 <- cusco_simplified |>
 plot1 + plot2
 ```
 
-`geoperu` also provides access to spatial information of natural protected areas in Peru. These areas, managed and declared by the National Service of Natural Protected Areas (SERNAP), encompass a diverse range of ecosystems. The `get_anp_peru()` function allows users to download spatial data representing these protected areas directly into their R environment.
+`geoperu` also provides access to spatial information of natural protected areas in Peru. These areas, managed and declared by the National Service of Natural Areas Protected by the State (SERNANP), encompass a diverse range of ecosystems. The `get_anp_peru()` function allows users to download spatial data representing these protected areas directly into their R environment.
 
 
 ```{r}

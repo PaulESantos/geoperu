@@ -1,19 +1,26 @@
 Package: geoperu
 Title: Download Spatial Datasets of Peru
-Version: 0.0.0.2
+Version: 0.0.1
 Authors@R: 
     person("Paul E.", "Santos Andrade", 
     email = "paulefrens@gmail.com",
-    role = c("aut", "cre"),
+    role = c("aut", "cre", "cph"),
     comment = c(ORCID = "0000-0002-6635-0375"))
-Description: Provides convenient access to the official spatial datasets of Peru as 'sf' objects in R. This package includes a wide range of geospatial data covering various aspects of Peruvian geography, such as: administrative divisions (Source: INEI <https://ide.inei.gob.pe/>), protected natural areas  (Source: GEO ANP - SERNANP <https://geo.sernanp.gob.pe/visorsernanp/>). All datasets are harmonized in terms of attributes, projection, and topology, ensuring consistency and ease of use for spatial analysis and visualization.
+Description: Provides access to official spatial datasets of Peru as 'sf'
+    objects in 'R'. Includes administrative boundaries from the National
+    Institute of Statistics and Informatics (INEI) <https://ide.inei.gob.pe/>
+    and protected natural areas from the National Service of Natural Areas
+    Protected by the State (SERNANP)
+    <https://geo.sernanp.gob.pe/visorsernanp/>. Harmonizes attributes,
+    coordinate reference systems, and topology to support consistent spatial
+    analysis and visualization.
 License: MIT + file LICENSE
 Suggests: 
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.2
+RoxygenNote: 8.0.0
 BugReports: https://github.com/PaulESantos/geoperu/issues
 Depends: 
     R (>= 3.6.0)
@@ -21,8 +28,5 @@ LazyDataCompression: xz
 LazyData: true
 URL: https://github.com/PaulESantos/geoperu, https://paulesantos.github.io/geoperu/
 Imports: 
-    curl,
-    data.table,
     httr,
-    methods,
     sf

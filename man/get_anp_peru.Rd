@@ -15,17 +15,15 @@ get_anp_peru(anp = NULL, showProgress = TRUE)
 An \verb{"sf" "data.frame"} object containing the spatial data of Peru's protected natural areas.
 }
 \description{
-Downloads spatial data of protected natural areas in Peru declared by SERNAP (National Service of Natural Protected Areas).
-Data were obtained from \href{https://geo.sernanp.gob.pe/visorsernanp/}{GEO ANP} as the official source. The data are in the "WGRS84" reference system and CRS(4326).
+Downloads spatial data of protected natural areas in Peru declared by SERNANP
+(National Service of Natural Areas Protected by the State).
+Data were obtained from \href{https://geo.sernanp.gob.pe/visorsernanp/}{GEO ANP}
+as the official source. The data use WGS 84 (EPSG:4326).
 }
 \examples{
-\donttest{
+if (interactive()) {
 # Read specific ANP
 manu <- get_anp_peru(anp = "Manu")
 
-pampa_galeras <- get_anp_peru(anp = "Pampa Galeras")
-
-# Read more than one ANP
-anps <- get_anp_peru(anp = c("Manu", "Yanachaga", "Calipuy"))
 }
 }

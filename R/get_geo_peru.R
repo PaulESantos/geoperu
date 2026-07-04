@@ -1,6 +1,7 @@
 #' Download spatial data of Peru
 #'
-#' Downloads spatial data of Peru using Geodetic reference system "WGRS84" and CRS(4326).
+#' Downloads spatial data of Peru using the WGS 84 geodetic reference system
+#' (EPSG:4326).
 #'
 #' @param geography A character or a vector with the name of geographical region.
 #' An exception is "all" to request all Peru data.
@@ -15,44 +16,65 @@
 #' @export
 #'
 #' @examples
-#' \donttest{
+#' if (interactive()) {
 #' # Read specific province
 #' anta <- get_geo_peru(geography = "ANTA",
 #'                      level = "prov",
 #'                      simplified = TRUE)
 #'
-#' # Read more than one province
-#' df <- get_geo_peru(geography = c("CALCA"),
-#'                    level = "prov",
-#'                    simplified = FALSE)
-#'
-#' # Read department level data
-#' cusco <- get_geo_peru(geography = "cusco",
-#'                       level = "dep",
-#'                       simplified = TRUE)
 #'}
-get_geo_peru<-  function(geography = "all",
-                         level = "all",
-                         simplified = TRUE,
-                         showProgress = TRUE) {
+get_geo_peru <- function(
+  geography = "all",
+  level = "all",
+  simplified = TRUE,
+  showProgress = TRUE
+) {
+  if (!is.character(geography) || !length(geography) || anyNA(geography)) {
+    stop("'geography' must be a non-empty character vector.", call. = FALSE)
+  }
+  if (
+    !is.character(level) ||
+      length(level) != 1L ||
+      !level %in% c("all", "dep", "prov")
+  ) {
+    stop("'level' must be one of 'all', 'dep', or 'prov'.", call. = FALSE)
+  }
+  if (
+    !is.logical(simplified) || length(simplified) != 1L || is.na(simplified)
+  ) {
+    stop("'simplified' must be TRUE or FALSE.", call. = FALSE)
+  }
+  if (
+    !is.logical(showProgress) ||
+      length(showProgress) != 1L ||
+      is.na(showProgress)
+  ) {
+    stop("'showProgress' must be TRUE or FALSE.", call. = FALSE)
+  }
 
   # Get metadata with data url addresses
-  temp_meta <- select_metadata(geography = geography,
-                               level = level,
-                               simplified = simplified)
+  temp_meta <- select_metadata(
+    geography = geography,
+    level = level,
+    simplified = simplified
+  )
   # check if download failed
-  if (is.null(temp_meta)) { return(invisible(NULL)) }
+  if (is.null(temp_meta)) {
+    return(invisible(NULL))
+  }
 
   # list paths of files to download
   file_url <- as.character(temp_meta$download_path)
   # download gpkg
-  temp_sf <- download_gpkg(file_url, progress_bar = FALSE)
+  if (!length(file_url)) {
+    warning("No spatial data matched the requested geography.", call. = FALSE)
+    return(invisible(NULL))
+  }
+  temp_sf <- download_gpkg(file_url, progress_bar = showProgress)
   # check if download failed
   if (is.null(temp_sf)) {
     return(invisible(NULL))
-  }
-  else{
+  } else {
     return(temp_sf)
   }
-
 }

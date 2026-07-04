@@ -1,615 +1,285 @@
-#' Select data type: 'original' or 'simplified' (default)
-#'
-#' @param temp_meta A dataframe with the file_url addresses of perugpkg datasets
-#' @param simplified Logical TRUE or FALSE indicating  whether the function returns the 'original' dataset with high resolution or a dataset with 'simplified' borders (Defaults to TRUE)
-#' @keywords internal
-#'
-select_data_type <- function(temp_meta, simplified=NULL){
-
-  if (!is.logical(simplified))
-  { stop(paste0("Argument 'simplified' needs to be either TRUE or FALSE")) }
-
-  if(isTRUE(simplified)){
-    temp_meta <- temp_meta[temp_meta$type == "simplified", ]
-  }
-
-  if(isFALSE(simplified)){
-    temp_meta <- temp_meta[temp_meta$type != "simplified", ]
-  }
-
-  return(temp_meta)
-}
-
-# -------------------------------------------------------------------------
-#' Select data level: nacional, departamental, provincial
-#'
-#'
-#' @param temp_meta A dataframe with the file_url addresses of perugpkg datasets
-#' @param level 'all', 'dep' or 'prov'
-#' @keywords internal
-#'
-
-select_data_level <- function(temp_meta, level = "prov"){
-
-  if (!level %in% c('all', 'dep', 'prov') )
-  { stop(paste0("Argument 'level' needs to be 'all', 'dep' or 'prov'")) }
-
-  if(level == "all"){
-    temp_meta <- temp_meta[ temp_meta$level == "nacional", ]
-  }
-  else if(level == "dep"){
-    temp_meta <- temp_meta[ temp_meta$level == "departamento", ]
-  }
-  else if(level == "prov"){
-    temp_meta <- temp_meta[ temp_meta$level == "provincia", ]
-  }
-  return(temp_meta)
-}
-
-# -------------------------------------------------------------------------
-#' Support function to download metadata internally used
-#'
-#' @keywords internal
-download_metadata <- function(){
-
-  # create tempfile to save metadata
-  tempf <- file.path(tempdir(), "metadata_peru_gpkg.csv")
-
-  # IF metadata has already been successfully downloaded
-  if (file.exists(tempf) & file.info(tempf)$size != 0) {
-
-  } else {
-
-    # download metadata to temp file
-    metadata_link <- "https://raw.githubusercontent.com/PaulESantos/perugeopkg/master/metadata_peru_gpkg.csv"
-
-    try( silent = TRUE,
-         httr::GET(url= metadata_link,
-                   httr::write_disk(tempf, overwrite = TRUE))
+select_data_type <- function(temp_meta, simplified = NULL) {
+  if (
+    !is.logical(simplified) || length(simplified) != 1L || is.na(simplified)
+  ) {
+    stop(
+      "Argument 'simplified' needs to be either TRUE or FALSE",
+      call. = FALSE
     )
-
-    if (!file.exists(tempf) | file.info(tempf)$size == 0) { return(invisible(NULL)) }
-
   }
 
-  # read metadata
-  metadata <- utils::read.csv(tempf, stringsAsFactors=FALSE)
+  if (simplified) {
+    temp_meta[temp_meta$type == "simplified", , drop = FALSE]
+  } else {
+    temp_meta[temp_meta$type != "simplified", , drop = FALSE]
+  }
+}
 
-  # check if data was read Ok
-  if (nrow(metadata)==0) {
-    message("A file must have been corrupted during download.
-            Please restart your R session and download the data again.")
+select_data_level <- function(temp_meta, level = "prov") {
+  if (
+    !is.character(level) ||
+      length(level) != 1L ||
+      is.na(level) ||
+      !level %in% c("all", "dep", "prov")
+  ) {
+    stop("Argument 'level' needs to be 'all', 'dep' or 'prov'", call. = FALSE)
+  }
+
+  level_name <- switch(
+    level,
+    all = "nacional",
+    dep = "departamento",
+    prov = "provincia"
+  )
+  temp_meta[temp_meta$level == level_name, , drop = FALSE]
+}
+
+.perform_get <- function(url, destination, timeout, progress) {
+  request <- list(
+    url = url,
+    httr::timeout(timeout),
+    httr::write_disk(destination, overwrite = TRUE)
+  )
+  if (progress) {
+    request <- append(request, list(httr::progress()))
+  }
+  do.call(httr::GET, request)
+}
+
+.download_file <- function(
+  url,
+  destination,
+  timeout = 120,
+  progress = FALSE,
+  silent = FALSE
+) {
+  partial <- paste0(destination, ".part")
+  unlink(partial)
+  on.exit(unlink(partial), add = TRUE)
+
+  response <- tryCatch(
+    .perform_get(url, partial, timeout, progress),
+    error = function(error) {
+      if (!silent) {
+        message("Unable to download data: ", conditionMessage(error))
+      }
+      NULL
+    }
+  )
+
+  if (is.null(response)) {
+    return(FALSE)
+  }
+  if (httr::http_error(response)) {
+    if (!silent) {
+      message(
+        "Unable to download data from ",
+        url,
+        ": HTTP ",
+        httr::status_code(response),
+        "."
+      )
+    }
+    return(FALSE)
+  }
+  if (!file.exists(partial) || file.info(partial)$size == 0) {
+    if (!silent) {
+      message("The data server returned an empty file for ", url, ".")
+    }
+    return(FALSE)
+  }
+
+  if (file.exists(destination)) {
+    unlink(destination)
+  }
+  if (!file.rename(partial, destination)) {
+    if (!file.copy(partial, destination, overwrite = TRUE)) {
+      if (!silent) {
+        message("Unable to save downloaded data to ", destination, ".")
+      }
+      return(FALSE)
+    }
+    unlink(partial)
+  }
+
+  TRUE
+}
+
+.read_metadata <- function(url, cache_name, required_columns) {
+  cache_path <- file.path(tempdir(), cache_name)
+  cache_missing <- !file.exists(cache_path) || file.info(cache_path)$size == 0
+
+  if (cache_missing && !.download_file(url, cache_path, timeout = 30)) {
     return(invisible(NULL))
   }
 
-  return(metadata)
+  metadata <- tryCatch(
+    utils::read.csv(cache_path, stringsAsFactors = FALSE),
+    error = function(error) {
+      message("Unable to read downloaded metadata: ", conditionMessage(error))
+      NULL
+    }
+  )
+  valid <- !is.null(metadata) &&
+    nrow(metadata) > 0L &&
+    all(required_columns %in% names(metadata))
+
+  if (!valid) {
+    unlink(cache_path)
+    message("Downloaded metadata are empty or have an unexpected format.")
+    return(invisible(NULL))
+  }
+
+  metadata
 }
 
-# -------------------------------------------------------------------------
-#' Select metadata
-#'
-#' @param geography Which geography will be downloaded.
-#' @param simplified Logical TRUE or FALSE indicating  whether the function
-#'        returns the 'original' dataset with high resolution or a dataset with
-#'        'simplified' borders (Defaults to TRUE).
-#'
-#' @keywords internal
-#'
-select_metadata <- function(geography, level = "all", simplified=NULL){
+download_metadata <- function() {
+  .read_metadata(
+    "https://raw.githubusercontent.com/PaulESantos/perugeopkg/master/metadata_peru_gpkg.csv",
+    "metadata_peru_gpkg.csv",
+    c("dep_name", "prov_name", "level", "type", "download_path")
+  )
+}
+
+download_metadata_anp <- function() {
+  .read_metadata(
+    "https://raw.githubusercontent.com/PaulESantos/perugeopkg/master/metadata_anp.csv",
+    "metadata_anp.csv",
+    c("anp_nombre", "anp_categoria", "download_path")
+  )
+}
+
+select_metadata <- function(geography, level = "all", simplified = NULL) {
+  if (
+    !is.character(level) ||
+      length(level) != 1L ||
+      !level %in% c("all", "dep", "prov")
+  ) {
+    stop("'level' must be one of 'all', 'dep', or 'prov'.", call. = FALSE)
+  }
+
   geography <- trimws(toupper(geography))
-  # download metadata
   metadata <- download_metadata()
-
-  # check if download failed
-  if (is.null(metadata)) { return(invisible(NULL)) }
-  #metadata
-  # Select geo
-  if(level == "all"){
-    temp_meta <- subset(metadata, dep_name == "all")
-  }
-  else if(level == "dep"){
-    temp_meta <- subset(metadata, dep_name %in% geography)
-  }
-  else if(level == "prov"){
-    temp_meta <- subset(metadata, prov_name %in% geography)
-  }
-  #temp_meta |>  as_tibble()
-  # Select data level
-  temp_meta <- select_data_level(temp_meta, level = level)
-  #temp_meta
-  # Select data type
-  temp_meta <- select_data_type(temp_meta, simplified = simplified)
-  #temp_meta
-  return(temp_meta)
-}
-
-
-# -------------------------------------------------------------------------
-
-
-#' Check internet connection with GitHub repository
-#'
-#' @description
-#' Checks if there is an internet connection with GitHub to download data.
-#'
-#' @param url A string with the url address of an perugpkg dataset
-#' @param silent Logical. Throw a message when silent is `FALSE` (default)
-#'
-#' @return Logical. `TRUE` if url is working, `FALSE` if not.
-#'
-#' @keywords internal
-#'
-check_connection <- function(url = paste0('https://raw.githubusercontent.com/PaulESantos/',
-                                          'perugeopkg/master/metadata_peru_gpkg.csv'),
-                             silent = FALSE){ # nocov start
-#url <- 'https://raw.githubusercontent.com/PaulESantos/perugeopkg/master/metadata_peru_gpkg.csv'
-  # check if user has internet connection
-  if (!curl::has_internet()) {
-    if(isFALSE(silent)){ message("No internet connection.") }
-
-    return(FALSE)
-  }
-
-  # message
-  msg <- "Problem connecting to data server. Please try again in a few minutes."
-
-  # test server connection
-  x <- try(silent = TRUE,
-           httr::GET(url, # timeout(5),
-                     config = httr::config(ssl_verifypeer = FALSE)))
-  # link offline
-  if (methods::is(x)=="try-error") {
-    if(isFALSE(silent)){ message( msg ) }
-    return(FALSE)
-  }
-
-  # link working fine
-  else if ( identical(httr::status_code(x), 200L)) {
-    return(TRUE)
-  }
-
-  # link not working or timeout
-  else if (! identical(httr::status_code(x), 200L)) {
-    if(isFALSE(silent)){ message( msg ) }
-    return(FALSE)
-
-  } else if (httr::http_error(x) == TRUE) {
-    if(isFALSE(silent)){ message( msg ) }
-    return(FALSE)
-  }
-
-} # nocov end
-
-
-
-# -------------------------------------------------------------------------
-
-#' Load geopackage from tempdir to global environment
-#'
-#' @param temps The address of a gpkg file stored in tempdir. Defaults to NULL
-#' @keywords internal
-#'
-load_gpkg <- function(temps=NULL){
-
-  ### one single file
-
-  if (length(temps)==1) {
-
-    # read sf
-    temp_sf <- sf::st_read(temps, quiet=TRUE)
-  }
-
-  else if(length(temps) > 1){
-
-    # read files and pile them up
-    files <- lapply(X = temps, FUN = sf::st_read, quiet = TRUE)
-    temp_sf <- sf::st_as_sf(data.table::rbindlist(files,
-                                                  fill = TRUE))
-    # do.call('rbind', files)
-
-    # closes issue 284
-    col1 <- names(temp_sf)[1]
-    temp_sf <- subset(temp_sf, get(col1) != 'data_table_sf_bug')
-
-    # remove data.table from object class. Closes #279.
-    class(temp_sf) <- c("sf", "data.frame")
-
-  }
-
-  # check if data was read Ok
-  if (nrow(temp_sf) == 0) {
-    message("A file must have been corrupted during download. Please restart your R session and download the data again.")
-    return(invisible(NULL))
-  }
-  return(temp_sf)
-
-  # load gpkg to memory
-  temp_sf <- load_gpkg(temps)
-  return(temp_sf)
-}
-# -------------------------------------------------------------------------
-
-#' Download geopackage to tempdir
-#'
-#' @param file_url A string with the file_url address of a geobr dataset
-#' @param progress_bar Logical. Defaults to (TRUE) display progress bar
-#' @keywords internal
-#'
-download_gpkg <- function(file_url, progress_bar = showProgress){
-
-  if (!is.logical(progress_bar))
-  { stop("'showProgress' must be of type 'logical'") }
-
-  ## one single file
-
-  if (length(file_url)==1) {
-
-    # location of temp_file
-    temps <- paste0(tempdir(),
-                    "/",
-                    unlist(lapply(strsplit(file_url, "/"),
-                                  tail, n = 1L)))
-    temps
-    # check if file has not been downloaded already. If not, download it
-    if (!file.exists(temps) | file.info(temps)$size == 0) {
-
-      # test connection with server1
-      try(silent = TRUE,
-          check_con <- check_connection(file_url, silent = TRUE)
-      )
-      #check_con
-      # if server1 fails, replace url and test connection with server2
-      if (is.null(check_con) | isFALSE(check_con)) {
-        # message('Using Github') # debug
-        check_con <- try(silent = TRUE,
-                         check_connection(file_url,
-                                          silent = FALSE))
-        if(is.null(check_con) | isFALSE(check_con)){
-          return(invisible(NULL)) }
-      }
-
-      # download data
-      try( httr::GET(url=file_url,
-                     if(isTRUE(progress_bar)){
-                       httr::progress()},
-                     httr::write_disk(temps, overwrite = TRUE),
-                     config = httr::config(ssl_verifypeer = FALSE)
-      ), silent = TRUE)
-    }
-
-    # if anything fails, return NULL
-    if (any(!file.exists(temps) | file.info(temps)$size == 0)) {
-      return(invisible(NULL)) }
-
-    # load gpkg to memory
-    temp_sf <- load_gpkg(temps)
-    return(temp_sf)
-  }
-
-  ## multiple files
-
-  else if(length(file_url) > 1) {
-
-    # location of all temp_files
-    temps <- paste0(tempdir(),"/",
-                    unlist(lapply(strsplit(file_url, "/"), tail, n = 1L)))
-
-    # count number of files that have NOT been downloaded already
-    number_of_files <- sum( (!file.exists(temps) | file.info(temps)$size == 0) )
-
-    # IF there is any file to download, then download them
-    if ( number_of_files > 0 ){
-
-      # test connection with server1
-      try(silent = TRUE,
-          check_con <- check_connection(file_url, silent = TRUE)
-      )
-
-      # if server1 fails, replace url and test connection with server2
-      if (is.null(check_con) | isFALSE(check_con)) {
-        check_con <- try(silent = TRUE,
-                         check_connection(file_url,
-                                          silent = FALSE))
-        if(is.null(check_con) | isFALSE(check_con)){
-          return(invisible(NULL)) }
-      }
-
-      # input for progress bar
-      if(isTRUE(progress_bar)){
-        pb <- utils::txtProgressBar(min = 0,
-                                    max = number_of_files,
-                                    style = 3)
-      }
-
-      # download files
-      lapply(X = file_url, function(x){
-
-        # get location of temp_file
-        temps <- paste0(tempdir(), "/",
-                        unlist(lapply(strsplit(x, "/"), tail, n = 1L)))
-
-        # check if file has not been downloaded already. If not, download it
-        if (!file.exists(temps) | file.info(temps)$size == 0) {
-          i <- match(c(x), file_url)
-          try( httr::GET(url = x, #httr::progress(),
-                         httr::write_disk(temps, overwrite = TRUE),
-                         config = httr::config(ssl_verifypeer = FALSE)
-          ), silent = TRUE)
-
-          if(isTRUE(progress_bar)){ utils::setTxtProgressBar(pb, i) }
-        }
-      })
-
-      # closing progress bar
-      if(isTRUE(progress_bar)){close(pb)}
-    }
-
-    # if anything fails, return NULL
-    temps <- paste0(tempdir(), "/",
-                    unlist(lapply(strsplit(file_url, "/"), tail, n = 1L)))
-    if (any(!file.exists(temps) | file.info(temps)$size == 0)) {
-      return(invisible(NULL)) }
-
-    # load gpkg
-    temp_sf <- load_gpkg(temps) #
-    return(temp_sf)
-
-  }
-}
-
-################################################################################
-# Areas naturales protegidas
-#' Support function to download metadata internally used for anp data
-#'
-#' @keywords internal
-download_metadata_anp <- function(){
-
-  # create tempfile to save metadata
-  tempf <- file.path(tempdir(), "metadata_anp.csv")
-
-  # IF metadata has already been successfully downloaded
-  if (file.exists(tempf) & file.info(tempf)$size != 0) {
-
-  } else {
-
-    # download metadata to temp file
-    metadata_link <- paste0("https://raw.githubusercontent.com/",# github path
-                            "PaulESantos/perugeopkg/master/",# repositoy name
-                            "metadata_anp.csv") # file name
-
-    try( silent = TRUE,
-         httr::GET(url= metadata_link,
-                   httr::write_disk(tempf, overwrite = TRUE))
-    )
-
-    if (!file.exists(tempf) | file.info(tempf)$size == 0) { return(invisible(NULL)) }
-
-  }
-
-  # read metadata
-  metadata <- utils::read.csv(tempf, stringsAsFactors=FALSE)
-
-  # check if data was read Ok
-  if (nrow(metadata)==0) {
-    message("A file must have been corrupted during download.
-            Please restart your R session and download the data again.")
+  if (is.null(metadata)) {
     return(invisible(NULL))
   }
 
-  return(metadata)
+  temp_meta <- switch(
+    level,
+    all = metadata[metadata$dep_name == "all", , drop = FALSE],
+    dep = metadata[metadata$dep_name %in% geography, , drop = FALSE],
+    prov = metadata[metadata$prov_name %in% geography, , drop = FALSE]
+  )
+  temp_meta <- select_data_level(temp_meta, level)
+  select_data_type(temp_meta, simplified)
 }
 
-# -------------------------------------------------------------------------
-#' Select metadata of anp
-#'
-#' @param anp Which anp will be downloaded.
-#'
-#' @keywords internal
-#'
-select_metadata_anp <- function(anp){
+select_metadata_anp <- function(anp) {
   anp <- trimws(toupper(anp))
-  # download metadata
   metadata <- download_metadata_anp()
-
-  # check if download failed
-  if (is.null(metadata)) { return(invisible(NULL)) }
-  #metadata
-  # Select area natural protegida
-
-  temp_meta <- subset(metadata, anp_nombre == anp)
-  if(nrow(temp_meta) == 0){
-    temp_meta <- subset(metadata, grepl(anp, anp_nombre))
+  if (is.null(metadata)) {
+    return(invisible(NULL))
   }
 
-  #temp_meta
-  return(temp_meta)
+  exact <- metadata$anp_nombre == anp
+  if (any(exact)) {
+    return(metadata[exact, , drop = FALSE])
+  }
+  metadata[grepl(anp, metadata$anp_nombre, fixed = TRUE), , drop = FALSE]
 }
 
-
-# -------------------------------------------------------------------------
-
-
-#' Check internet connection with GitHub repository
-#'
-#' @description
-#' Checks if there is an internet connection with GitHub to download data.
-#'
-#' @param url A string with the url address of an perugpkg dataset
-#' @param silent Logical. Throw a message when silent is `FALSE` (default)
-#'
-#' @return Logical. `TRUE` if url is working, `FALSE` if not.
-#'
-#' @keywords internal
-#'
-check_connection_anp <- function(url = paste0("https://raw.githubusercontent.com/",# github path
-                                              "PaulESantos/perugeopkg/master/",# repositoy name
-                                              "metadata_anp.csv"),
-                                 silent = FALSE){ # nocov start
-  # check if user has internet connection
-  if (!curl::has_internet()) {
-    if(isFALSE(silent)){ message("No internet connection.") }
-
-    return(FALSE)
+load_gpkg <- function(temps = NULL) {
+  if (!is.character(temps) || !length(temps) || anyNA(temps)) {
+    stop("'temps' must be a non-empty character vector.", call. = FALSE)
   }
 
-  # message
-  msg <- "Problem connecting to data server. Please try again in a few minutes."
-
-  # test server connection
-  x <- try(silent = TRUE,
-           httr::GET(url, # timeout(5),
-                     config = httr::config(ssl_verifypeer = FALSE)))
-  # link offline
-  if (methods::is(x)=="try-error") {
-    if(isFALSE(silent)){ message( msg ) }
-    return(FALSE)
-  }
-
-  # link working fine
-  else if ( identical(httr::status_code(x), 200L)) {
-    return(TRUE)
-  }
-
-  # link not working or timeout
-  else if (! identical(httr::status_code(x), 200L)) {
-    if(isFALSE(silent)){ message( msg ) }
-    return(FALSE)
-
-  } else if (httr::http_error(x) == TRUE) {
-    if(isFALSE(silent)){ message( msg ) }
-    return(FALSE)
-  }
-
-}
-
-
-# -------------------------------------------------------------------------
-
-#' Download geopackage to tempdir
-#'
-#' @param file_url A string with the file_url address of a geobr dataset
-#' @param progress_bar Logical. Defaults to (TRUE) display progress bar
-#' @keywords internal
-#'
-download_gpkg_anp <- function(file_url, progress_bar = showProgress){
-
-  if (!is.logical(progress_bar))
-  { stop("'showProgress' must be of type 'logical'") }
-
-  ## one single file
-
-  if (length(file_url)==1) {
-
-    # location of temp_file
-    temps <- paste0(tempdir(),
-                    "/",
-                    unlist(lapply(strsplit(file_url, "/"),
-                                  tail, n = 1L)))
-    temps
-    # check if file has not been downloaded already. If not, download it
-    if (!file.exists(temps) | file.info(temps)$size == 0) {
-
-      # test connection with server1
-      try(silent = TRUE,
-          check_con <- check_connection_anp(file_url, silent = TRUE)
-      )
-      #check_con
-      # if server1 fails, replace url and test connection with server2
-      if (is.null(check_con) | isFALSE(check_con)) {
-        # message('Using Github') # debug
-        check_con <- try(silent = TRUE,
-                         check_connection_anp(file_url,
-                                              silent = FALSE))
-        if(is.null(check_con) | isFALSE(check_con)){
-          return(invisible(NULL)) }
+  files <- lapply(temps, function(path) {
+    tryCatch(
+      sf::st_read(path, quiet = TRUE),
+      error = function(error) {
+        message(
+          "Unable to read downloaded spatial data: ",
+          conditionMessage(error)
+        )
+        NULL
       }
+    )
+  })
+  if (any(vapply(files, is.null, logical(1)))) {
+    return(invisible(NULL))
+  }
 
-      # download data
-      try( httr::GET(url=file_url,
-                     if(isTRUE(progress_bar)){
-                       httr::progress()},
-                     httr::write_disk(temps, overwrite = TRUE),
-                     config = httr::config(ssl_verifypeer = FALSE)
-      ), silent = TRUE)
+  spatial_data <- if (length(files) == 1L) {
+    files[[1L]]
+  } else {
+    do.call(rbind, files)
+  }
+  if (nrow(spatial_data) == 0L) {
+    message("Downloaded spatial data contain no features.")
+    return(invisible(NULL))
+  }
+
+  spatial_data
+}
+
+.cache_paths <- function(file_url) {
+  clean_url <- sub("[?#].*$", "", file_url)
+  file_name <- basename(utils::URLdecode(clean_url))
+  if (any(!nzchar(file_name))) {
+    stop("Every download URL must end with a file name.", call. = FALSE)
+  }
+  paths <- file.path(tempdir(), file_name)
+  if (anyDuplicated(paths)) {
+    stop("Download URLs must have unique file names.", call. = FALSE)
+  }
+  paths
+}
+
+download_gpkg <- function(file_url, progress_bar = show_progress()) {
+  if (!is.character(file_url) || !length(file_url) || anyNA(file_url)) {
+    stop("'file_url' must be a non-empty character vector.", call. = FALSE)
+  }
+  if (
+    !is.logical(progress_bar) ||
+      length(progress_bar) != 1L ||
+      is.na(progress_bar)
+  ) {
+    stop("'showProgress' must be TRUE or FALSE.", call. = FALSE)
+  }
+
+  cache_paths <- .cache_paths(file_url)
+  missing <- !file.exists(cache_paths) | file.info(cache_paths)$size == 0
+  pending <- which(missing)
+
+  progress <- NULL
+  if (progress_bar && length(pending) > 1L) {
+    progress <- utils::txtProgressBar(min = 0, max = length(pending), style = 3)
+    on.exit(close(progress), add = TRUE)
+  }
+
+  for (index in seq_along(pending)) {
+    position <- pending[[index]]
+    downloaded <- .download_file(
+      file_url[[position]],
+      cache_paths[[position]],
+      timeout = 120,
+      progress = progress_bar && length(pending) == 1L
+    )
+    if (!downloaded) {
+      return(invisible(NULL))
     }
-
-    # if anything fails, return NULL
-    if (any(!file.exists(temps) | file.info(temps)$size == 0)) {
-      return(invisible(NULL)) }
-
-    # load gpkg to memory
-    temp_sf <- load_gpkg(temps)
-    return(temp_sf)
-  }
-
-  ## multiple files
-
-  else if(length(file_url) > 1) {
-
-    # location of all temp_files
-    temps <- paste0(tempdir(),"/",
-                    unlist(lapply(strsplit(file_url, "/"), tail, n = 1L)))
-
-    # count number of files that have NOT been downloaded already
-    number_of_files <- sum( (!file.exists(temps) | file.info(temps)$size == 0) )
-
-    # IF there is any file to download, then download them
-    if ( number_of_files > 0 ){
-
-      # test connection with server1
-      try(silent = TRUE,
-          check_con <- check_connection_anp(file_url, silent = TRUE)
-      )
-
-      # if server1 fails, replace url and test connection with server2
-      if (is.null(check_con) | isFALSE(check_con)) {
-        check_con <- try(silent = TRUE,
-                         check_connection_anp(file_url,
-                                              silent = FALSE))
-        if(is.null(check_con) | isFALSE(check_con)){
-          return(invisible(NULL)) }
-      }
-
-      # input for progress bar
-      if(isTRUE(progress_bar)){
-        pb <- utils::txtProgressBar(min = 0,
-                                    max = number_of_files,
-                                    style = 3)
-      }
-
-      # download files
-      lapply(X = file_url, function(x){
-
-        # get location of temp_file
-        temps <- paste0(tempdir(), "/",
-                        unlist(lapply(strsplit(x, "/"), tail, n = 1L)))
-
-        # check if file has not been downloaded already. If not, download it
-        if (!file.exists(temps) | file.info(temps)$size == 0) {
-          i <- match(c(x), file_url)
-          try( httr::GET(url = x, #httr::progress(),
-                         httr::write_disk(temps, overwrite = TRUE),
-                         config = httr::config(ssl_verifypeer = FALSE)
-          ), silent = TRUE)
-
-          if(isTRUE(progress_bar)){ utils::setTxtProgressBar(pb, i) }
-        }
-      })
-
-      # closing progress bar
-      if(isTRUE(progress_bar)){close(pb)}
+    if (!is.null(progress)) {
+      utils::setTxtProgressBar(progress, index)
     }
-
-    # if anything fails, return NULL
-    temps <- paste0(tempdir(), "/",
-                    unlist(lapply(strsplit(file_url, "/"), tail, n = 1L)))
-    if (any(!file.exists(temps) | file.info(temps)$size == 0)) {
-      return(invisible(NULL)) }
-
-    # load gpkg
-    temp_sf <- load_gpkg(temps) #
-    return(temp_sf)
-
   }
+
+  spatial_data <- load_gpkg(cache_paths)
+  if (is.null(spatial_data)) {
+    unlink(cache_paths)
+  }
+  spatial_data
 }
 
+download_gpkg_anp <- function(file_url, progress_bar = show_progress()) {
+  download_gpkg(file_url, progress_bar)
+}
