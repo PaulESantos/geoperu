@@ -10,7 +10,7 @@ knitr::opts_chunk$set(
   comment = "#>",
   fig.path = "man/figures/README-",
   out.width = "100%",
-  eval = FALSE
+  eval = TRUE
 )
 
 ```
@@ -52,56 +52,98 @@ To access spatial information of districts from any province in Peru, you can us
 library(geoperu)
 
 cusco <- geoperu::get_geo_peru(geography = "CUSCO", 
-                                  level = "dep",
-                                  simplified = FALSE)
+                               level = "dep",
+                               simplified = FALSE,
+                               showProgress = FALSE)
 cusco
 cusco_simplified <- geoperu::get_geo_peru(geography = "CUSCO", 
-                                  level = "dep",
-                                  simplified = TRUE)
+                                          level = "dep",
+                                          simplified = TRUE,
+                                          showProgress = FALSE)
 cusco_simplified
 
 prov_sf <- geoperu::get_geo_peru(geography = "ANTA",
                                  level = "prov", 
-                                 simplified = TRUE)
+                                 simplified = TRUE,
+                                 showProgress = FALSE)
 prov_sf
 islay_sf <- geoperu::get_geo_peru(geography = "ISLAY",
-                                 level = "prov", 
-                                 simplified = FALSE)
+                                  level = "prov",
+                                  simplified = FALSE,
+                                  showProgress = FALSE)
 islay_sf
 ```
 
-To visualize the retrieved geospatial information with the `get_geo_peru()` function from the geoperu package, you can use various tools in R. A common option is to use the `ggplot2` library along with `sf` object visualization functionality.
-
-Here's a basic example of how to visualize the data:
+The objects returned by `geoperu` work directly with `ggplot2`. A restrained
+grey scale, fine district borders, and a geographic grid produce a clear,
+technical map of Cusco:
 
 ```{r}
-library(patchwork)
 library(ggplot2)
-plot1 <- cusco |> 
-  ggplot() +
-  geom_sf() +
-  theme_bw()
 
-plot2 <- cusco_simplified |> 
-  ggplot() +
-  geom_sf() +
-  theme_bw()
-
-plot1 + plot2
+ggplot() +
+  geom_sf(
+    data = cusco,
+    aes(fill = provincia),
+    color = "#FFFFFF",
+    linewidth = 0.15
+  ) +
+  geom_sf(
+    data = cusco_simplified,
+    fill = NA,
+    color = "#374151",
+    linewidth = 0.7
+  ) +
+  scale_fill_grey(start = 0.35, end = 0.8, guide = "none") +
+  coord_sf(expand = FALSE) +
+  labs(
+    title = "CUSCO",
+    subtitle = "Provincias y límites distritales",
+    caption = "Datos: INEI · Mapa: geoperu"
+  ) +
+  theme_minimal(base_size = 11) +
+  theme(
+    plot.background = element_rect(fill = "#FAFAF9", color = NA),
+    panel.background = element_rect(fill = "#FAFAF9", color = NA),
+    panel.grid = element_line(color = "#E5E7EB", linewidth = 0.3),
+    axis.text = element_text(color = "#6B7280", size = 7),
+    plot.title = element_text(color = "#1F2937", size = 18, face = "bold"),
+    plot.subtitle = element_text(color = "#4B5563"),
+    plot.caption = element_text(color = "#6B7280")
+  )
 ```
 
 `geoperu` also provides access to spatial information of natural protected areas in Peru. These areas, managed and declared by the National Service of Natural Areas Protected by the State (SERNANP), encompass a diverse range of ecosystems. The `get_anp_peru()` function allows users to download spatial data representing these protected areas directly into their R environment.
 
 
 ```{r}
-manu <- get_anp_peru(anp = "manu")
+manu <- get_anp_peru(anp = "manu", showProgress = FALSE)
 manu
 
 manu |> 
   ggplot() +
-  geom_sf() +
-  theme_bw()
+  geom_sf(fill = "#AAB7B0", color = "#3F5148", linewidth = 0.7) +
+  coord_sf(expand = FALSE) +
+  labs(
+    title = "PARQUE NACIONAL\nDEL MANU",
+    subtitle = "Cusco y Madre de Dios",
+    caption = "Datos: SERNANP · Mapa: geoperu"
+  ) +
+  theme_minimal(base_size = 11) +
+  theme(
+    plot.background = element_rect(fill = "#FAFAF9", color = NA),
+    panel.background = element_rect(fill = "#FAFAF9", color = NA),
+    panel.grid = element_line(color = "#E5E7EB", linewidth = 0.3),
+    axis.text = element_text(color = "#6B7280", size = 7),
+    plot.title = element_text(
+      color = "#26332D", size = 16, face = "bold", hjust = 0,
+      lineheight = 0.9
+    ),
+    plot.subtitle = element_text(color = "#526159"),
+    plot.caption = element_text(color = "#6B7280")
+  )
 
 ```
 
-- You can customize the plot by adding additional layers, adjusting styles, and adding labels according to your specific needs.
+These maps use only `ggplot2`; colors, typography, and line widths can be
+adapted without modifying the spatial data.
