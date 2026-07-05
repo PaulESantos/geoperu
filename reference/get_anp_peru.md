@@ -2,7 +2,8 @@
 
 Downloads spatial data of protected natural areas in Peru declared by
 SERNANP (National Service of Natural Areas Protected by the State). Data
-were obtained from [GEO ANP](https://geo.sernanp.gob.pe/visorsernanp/)
+were obtained from the [SERNANP Geographic Information
+Viewer](https://www.gob.pe/institucion/sernanp/pages/21261-acceder-a-informacion-espacial-de-las-area-naturales-protegidas-visor-de-informacion-geografica)
 as the official source. The data use WGS 84 (EPSG:4326).
 
 ## Usage
