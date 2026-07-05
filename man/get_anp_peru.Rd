@@ -17,7 +17,8 @@ An \verb{"sf" "data.frame"} object containing the spatial data of Peru's protect
 \description{
 Downloads spatial data of protected natural areas in Peru declared by SERNANP
 (National Service of Natural Areas Protected by the State).
-Data were obtained from \href{https://geo.sernanp.gob.pe/visorsernanp/}{GEO ANP}
+Data were obtained from the
+\href{https://www.gob.pe/institucion/sernanp/pages/21261-acceder-a-informacion-espacial-de-las-area-naturales-protegidas-visor-de-informacion-geografica}{SERNANP Geographic Information Viewer}
 as the official source. The data use WGS 84 (EPSG:4326).
 }
 \examples{

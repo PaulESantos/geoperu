@@ -11,9 +11,9 @@ Description: Provides access to official spatial datasets of Peru as 'sf'
     Institute of Statistics and Informatics (INEI) <https://ide.inei.gob.pe/>
     and protected natural areas from the National Service of Natural Areas
     Protected by the State (SERNANP)
-    <https://geo.sernanp.gob.pe/visorsernanp/>. Harmonizes attributes,
-    coordinate reference systems, and topology to support consistent spatial
-    analysis and visualization.
+    <https://www.gob.pe/institucion/sernanp/pages/21261-acceder-a-informacion-espacial-de-las-area-naturales-protegidas-visor-de-informacion-geografica>.
+    Harmonizes attributes, coordinate reference systems, and topology to
+    support consistent spatial analysis and visualization.
 License: MIT + file LICENSE
 Suggests: 
     testthat (>= 3.0.0)
