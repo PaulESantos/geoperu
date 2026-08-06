@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">geoperu</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,8 +32,12 @@
     </div>
 
     <div class="section level2">
-<h2 class="pkg-version" data-toc-text="0.0.1" id="geoperu-001">geoperu 0.0.1<a class="anchor" aria-label="anchor" href="#geoperu-001"></a></h2>
-<ul><li>Made downloads atomic and validated HTTP responses before caching files.</li>
+<h2 class="pkg-version" data-toc-text="0.0.2" id="geoperu-002">geoperu 0.0.2<a class="anchor" aria-label="anchor" href="#geoperu-002"></a></h2>
+<ul><li>
+<code><a href="../reference/get_geo_peru.html">get_geo_peru()</a></code> downloads multiple selected files concurrently, reducing the wait for all departments or provinces.</li>
+<li>
+<code><a href="../reference/get_geo_peru.html">get_geo_peru()</a></code> now returns all departments or provinces when <code>geography = "all"</code> is used with the respective level.</li>
+<li>Made downloads atomic and validated HTTP responses before caching files.</li>
 <li>Improved error messages for unavailable, empty, or malformed remote data.</li>
 <li>Removed duplicate network requests and consolidated GeoPackage downloads.</li>
 <li>Added argument validation and expanded automated tests.</li>
@@ -52,7 +56,7 @@
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

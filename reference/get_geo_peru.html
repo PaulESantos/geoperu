@@ -9,7 +9,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">geoperu</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Released version">0.0.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -55,12 +55,13 @@
 
 <dl><dt id="arg-geography">geography<a class="anchor" aria-label="anchor" href="#arg-geography"></a></dt>
 <dd><p>A character or a vector with the name of geographical region.
-An exception is "all" to request all Peru data.</p></dd>
+Use "all" to request all geographic units at the selected level.</p></dd>
 
 
 <dt id="arg-level">level<a class="anchor" aria-label="anchor" href="#arg-level"></a></dt>
-<dd><p>A character: "all" for national level data, "dep" for department
-level data, and "prov" for provincial level data.</p></dd>
+<dd><p>A character: "all" for national data, "dep" for departments,
+and "prov" for provinces. Together with <code>geography = "all"</code>, the options
+return one national dataset, 25 departments, or 196 provinces, respectively.</p></dd>
 
 
 <dt id="arg-simplified">simplified<a class="anchor" aria-label="anchor" href="#arg-simplified"></a></dt>
@@ -97,7 +98,7 @@ a polygon simplified to a higher level.</p></dd>
 </div>
 
 <div class="pkgdown-footer-right">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.1.</p>
 </div>
 
     </footer></div>

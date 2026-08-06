@@ -18,13 +18,15 @@ get_geo_peru(
 
 - geography:
 
-  A character or a vector with the name of geographical region. An
-  exception is "all" to request all Peru data.
+  A character or a vector with the name of geographical region. Use
+  "all" to request all geographic units at the selected level.
 
 - level:
 
-  A character: "all" for national level data, "dep" for department level
-  data, and "prov" for provincial level data.
+  A character: "all" for national data, "dep" for departments, and
+  "prov" for provinces. Together with `geography = "all"`, the options
+  return one national dataset, 25 departments, or 196 provinces,
+  respectively.
 
 - simplified:
 
