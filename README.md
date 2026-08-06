@@ -56,7 +56,7 @@ province:
 ``` r
 
 library(geoperu)
-#> This is geoperu 0.0.1
+#> This is geoperu 0.0.2
 
 cusco <- geoperu::get_geo_peru(geography = "CUSCO", 
                                level = "dep",
@@ -110,9 +110,24 @@ departamentos <- geoperu::get_geo_peru(
   simplified = TRUE,
   showProgress = FALSE
 )
-#> Warning: No spatial data matched the requested geography.
 departamentos
-#> NULL
+#> Simple feature collection with 25 features and 1 field
+#> Geometry type: GEOMETRY
+#> Dimension:     XY
+#> Bounding box:  xmin: -81.3282 ymin: -18.35093 xmax: -68.65228 ymax: -0.03860597
+#> Geodetic CRS:  WGS 84
+#> First 10 features:
+#>    departamento                           geom
+#> 1      AMAZONAS POLYGON ((-78.13669 -6.5584...
+#> 2        ANCASH POLYGON ((-77.69875 -10.322...
+#> 3      APURIMAC POLYGON ((-72.75032 -13.478...
+#> 4      AREQUIPA POLYGON ((-71.9485 -17.0676...
+#> 5      AYACUCHO POLYGON ((-73.61616 -14.068...
+#> 6     CAJAMARCA POLYGON ((-79.17066 -4.965,...
+#> 7        CALLAO POLYGON ((-77.08812 -12.060...
+#> 8         CUSCO POLYGON ((-70.8315 -14.0698...
+#> 9  HUANCAVELICA POLYGON ((-75.51096 -13.588...
+#> 10      HUANUCO POLYGON ((-76.911 -9.368459...
 
 prov_sf <- geoperu::get_geo_peru(geography = "ANTA",
                                  level = "prov", 
