@@ -30,11 +30,17 @@ test_that("metadata selectors reject non-scalar choices", {
 
 test_that("select_metadata filters downloaded metadata", {
   metadata <- data.frame(
-    dep_name = c("all", "CUSCO", "CUSCO"),
-    prov_name = c("all", "all", "ANTA"),
-    level = c("nacional", "departamento", "provincia"),
-    type = c("simplified", "simplified", "original"),
-    download_path = c("country", "department", "province")
+    dep_name = c("all", "CUSCO", "PUNO", "CUSCO", "PUNO"),
+    prov_name = c("all", "nill", "nill", "ANTA", "CARABAYA"),
+    level = c(
+      "nacional",
+      "departamento",
+      "departamento",
+      "provincia",
+      "provincia"
+    ),
+    type = c("simplified", "simplified", "simplified", "original", "original"),
+    download_path = c("country", "cusco", "puno", "anta", "carabaya")
   )
   local_mocked_bindings(
     download_metadata = function() metadata,
@@ -47,12 +53,63 @@ test_that("select_metadata filters downloaded metadata", {
   )
   expect_identical(
     geoperu:::select_metadata("cusco", "dep", TRUE)$download_path,
-    "department"
+    "cusco"
+  )
+  expect_identical(
+    geoperu:::select_metadata("all", "dep", TRUE)$download_path,
+    c("cusco", "puno")
   )
   expect_identical(
     geoperu:::select_metadata("anta", "prov", FALSE)$download_path,
-    "province"
+    "anta"
   )
+  expect_identical(
+    geoperu:::select_metadata("all", "prov", FALSE)$download_path,
+    c("anta", "carabaya")
+  )
+})
+
+test_that("all geography supports every administrative download combination", {
+  metadata <- data.frame(
+    dep_name = c("all", "all", "CUSCO", "CUSCO", "CUSCO", "CUSCO"),
+    prov_name = c("all", "all", "nill", "nill", "ANTA", "ANTA"),
+    level = c(
+      "nacional",
+      "nacional",
+      "departamento",
+      "departamento",
+      "provincia",
+      "provincia"
+    ),
+    type = c(
+      "simplified",
+      "complete",
+      "simplified",
+      "complete",
+      "simplified",
+      "complete"
+    ),
+    download_path = paste0("file-", 1:6)
+  )
+  local_mocked_bindings(
+    download_metadata = function() metadata,
+    .package = "geoperu"
+  )
+
+  combinations <- expand.grid(
+    level = c("all", "dep", "prov"),
+    simplified = c(TRUE, FALSE),
+    stringsAsFactors = FALSE
+  )
+  result_sizes <- mapply(
+    function(level, simplified) {
+      nrow(geoperu:::select_metadata("all", level, simplified))
+    },
+    combinations$level,
+    combinations$simplified
+  )
+
+  expect_identical(unname(result_sizes), rep(1L, 6L))
 })
 
 test_that("select_metadata_anp prefers exact matches then partial matches", {
@@ -209,6 +266,14 @@ test_that("cache paths ignore query strings and reject collisions", {
   )
 })
 
+test_that("download URLs encode non-ASCII file names", {
+  url <- "https://example.test/geometría.gpkg"
+  expect_identical(
+    geoperu:::.encode_urls(url),
+    "https://example.test/geometr%C3%ADa.gpkg"
+  )
+})
+
 test_that("corrupt GeoPackages fail gracefully", {
   path <- tempfile(fileext = ".gpkg")
   on.exit(unlink(path), add = TRUE)
@@ -258,6 +323,48 @@ test_that("downloads are atomic and keep only successful responses", {
   )
   expect_identical(readLines(destination), "existing content")
   expect_false(file.exists(paste0(destination, ".part")))
+})
+
+test_that("multiple downloads are concurrent and atomic", {
+  destinations <- c(tempfile("geoperu-multi-"), tempfile("geoperu-multi-"))
+  on.exit(unlink(c(destinations, paste0(destinations, ".part"))), add = TRUE)
+
+  local_mocked_bindings(
+    .perform_multi_download = function(urls, destinations, progress) {
+      expect_identical(progress, FALSE)
+      lapply(destinations, writeLines, text = "valid content")
+      data.frame(success = c(TRUE, TRUE), status_code = c(200L, 200L))
+    },
+    .package = "geoperu"
+  )
+  expect_true(geoperu:::.download_files(
+    c("https://one.example", "https://two.example"),
+    destinations
+  ))
+  expect_true(all(file.exists(destinations)))
+  expect_false(any(file.exists(paste0(destinations, ".part"))))
+})
+
+test_that("multiple downloads fail without replacing cached files", {
+  destination <- tempfile("geoperu-multi-")
+  on.exit(unlink(c(destination, paste0(destination, ".part"))), add = TRUE)
+  writeLines("cached content", destination)
+
+  local_mocked_bindings(
+    .perform_multi_download = function(urls, destinations, progress) {
+      lapply(destinations, writeLines, text = "error page")
+      data.frame(success = TRUE, status_code = 503L)
+    },
+    .package = "geoperu"
+  )
+  expect_message(
+    expect_false(geoperu:::.download_files(
+      "https://example.test",
+      destination
+    )),
+    "Unable to download"
+  )
+  expect_identical(readLines(destination), "cached content")
 })
 
 test_that("download failures return FALSE and remove partial files", {

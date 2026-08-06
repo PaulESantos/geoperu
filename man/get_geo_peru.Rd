@@ -13,10 +13,11 @@ get_geo_peru(
 }
 \arguments{
 \item{geography}{A character or a vector with the name of geographical region.
-An exception is "all" to request all Peru data.}
+Use "all" to request all geographic units at the selected level.}
 
-\item{level}{A character: "all" for national level data, "dep" for department
-level data, and "prov" for provincial level data.}
+\item{level}{A character: "all" for national data, "dep" for departments,
+and "prov" for provinces. Together with \code{geography = "all"}, the options
+return one national dataset, 25 departments, or 196 provinces, respectively.}
 
 \item{simplified}{A logical TRUE or FALSE, to select data with all districts or
 a polygon simplified to a higher level.}

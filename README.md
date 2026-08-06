@@ -18,9 +18,11 @@ coverage](https://codecov.io/gh/PaulESantos/geoperu/branch/main/graph/badge.svg)
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 <!-- badges: end -->
 
-The `geoperu` package provides a convenient interface to access official
-spatial datasets of Peru directly from R. These data are collected from
-the National Institute of Statistics and Informatics (INEI) of Peru.
+`geoperu` provides official spatial datasets of Peru as `sf` objects. It
+includes administrative boundaries published by the National Institute
+of Statistics and Informatics (INEI), plus protected natural areas from
+SERNANP. The returned objects work directly with `ggplot2`, `dplyr`, and
+the wider spatial R ecosystem.
 
 ## Installation
 
@@ -36,8 +38,20 @@ Install the development version from GitHub with `pak`:
 pak::pak("PaulESantos/geoperu")
 ```
 
-To access spatial information of districts from any province in Peru,
-you can use the `get_geo_peru()` function.
+## Administrative boundaries
+
+Use `get_geo_peru()` to download administrative boundaries. `geography`
+accepts one or more names, case-insensitively. Use `"all"` to retrieve
+every unit at the chosen level.
+
+| `level` | `simplified = TRUE` | `simplified = FALSE` |
+|----|----|----|
+| `"all"` | One national polygon | District-level data for all Peru |
+| `"dep"` | One polygon for each of 25 departments | District-level data for the selected departments |
+| `"prov"` | One polygon for each of 196 provinces | District-level data for the selected provinces |
+
+For example, retrieve a single department, all departments, or one
+province:
 
 ``` r
 
@@ -90,6 +104,16 @@ cusco_simplified
 #>   departamento                           geom
 #> 1        CUSCO POLYGON ((-70.8315 -14.0698...
 
+departamentos <- geoperu::get_geo_peru(
+  geography = "all",
+  level = "dep",
+  simplified = TRUE,
+  showProgress = FALSE
+)
+#> Warning: No spatial data matched the requested geography.
+departamentos
+#> NULL
+
 prov_sf <- geoperu::get_geo_peru(geography = "ANTA",
                                  level = "prov", 
                                  simplified = TRUE,
@@ -127,6 +151,11 @@ islay_sf
 #> 5 MULTIPOLYGON (((-71.76488 -...
 #> 6 MULTIPOLYGON (((-71.66772 -...
 ```
+
+When a request needs multiple files, `geoperu` downloads the missing
+files concurrently and reuses files cached during the R session. For a
+national map, prefer `simplified = TRUE`; it transfers and plots far
+less geometry.
 
 The objects returned by `geoperu` work directly with `ggplot2`. A
 restrained grey scale, fine district borders, and a geographic grid
@@ -169,12 +198,10 @@ ggplot() +
 
 <img src="man/figures/README-unnamed-chunk-2-1.png" alt="" width="100%" />
 
-`geoperu` also provides access to spatial information of natural
-protected areas in Peru. These areas, managed and declared by the
-National Service of Natural Areas Protected by the State (SERNANP),
-encompass a diverse range of ecosystems. The `get_anp_peru()` function
-allows users to download spatial data representing these protected areas
-directly into their R environment.
+## Protected natural areas
+
+`get_anp_peru()` downloads protected natural areas declared by the
+National Service of Natural Areas Protected by the State (SERNANP).
 
 ``` r
 manu <- get_anp_peru(anp = "manu", showProgress = FALSE)
